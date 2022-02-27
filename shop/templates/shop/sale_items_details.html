@@ -1,0 +1,203 @@
+{% extends 'rentals/base.html' %}
+{% load tagger %}
+
+{% block content %}
+
+
+    <!-- content @s -->
+    <div class="nk-content ">
+        <div class="container">
+            <div class="nk-content-inner">
+                <div class="nk-content-body">
+                    <div class="nk-block-head nk-block-head-sm">
+                        <div class="nk-block-between g-3">
+                            <div class="nk-block-head-content">
+                                <h3 class="nk-block-title page-title">Sale Item Details</h3>
+                                <div class="nk-block-des text-soft">
+                                   
+                                </div>
+                            </div>
+                            <div class="nk-block-head-content">
+                                <a href="{% url 'shop:games' %}" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                                <a href="{% url 'shop:games' %}" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
+                            </div>
+                        </div>
+                    </div><!-- .nk-block-head -->
+                    <div class="nk-block">
+                        <div class="card card-bordered">
+                            <div class="card-inner">
+                                <div class="row pb-5">
+                                    <div class="col-lg-6">
+                                        <div class="product-gallery mr-xl-1 mr-xxl-5">
+                                            <div class="slider-init" id="sliderFor" data-slick='{"arrows": false, "fade": true, "asNavFor":"#sliderNav", "slidesToShow": 1, "slidesToScroll": 1}'>
+                                                <div class="slider-item rounded">
+                                                    <img src="{{the_game.thumbnailImagePath}}" class="rounded w-100" alt="">
+                                                </div>
+
+                                            </div>
+                                        
+                                        </div>
+                                    </div><!-- .col -->
+                                    <div class="col-lg-6">
+                                        <div class="product-info mt-5 mr-xxl-5">
+                                            <h4 class="product-price text-primary">N{{the_game.price}} </h4>
+                                            <h2 class="product-title">{{the_game.name}}</h2>
+                                           
+                                            <div class="product-excrept text-soft">
+                                                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus exercitationem facilis itaque ipsum pariatur, incidunt nam eius vero perferendis fugit nesciunt eveniet aperiam minima error qui distinctio amet accusantium nostrum.</p>
+                                            </div>
+                                            <div class="product-meta">
+                                                <ul class="d-flex g-3 gx-5">
+                                                    <li>
+                                                        <div class="fs-14px text-muted">Vendor</div>
+                                                        <div class="fs-16px fw-bold text-secondary">{% if the_game.adminOwned %} GameOn Admin {% else %}  {{the_game.vendor}} {% endif %}</div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="fs-14px text-muted">Platform</div>
+                                                        <div class="fs-16px fw-bold text-secondary">{{the_game.platform.name}}</div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="product-meta">
+                                                <h6 class="title">Date Added</h6>
+                                                <p class="lead"> {{the_game.created_at}} </p>
+                                                
+                                            </div>
+
+                                          
+                                        </div><!-- .product-info -->
+                                    </div><!-- .col -->
+                                </div><!-- .row -->
+                                <hr class="hr border-light">
+                                <div class="row g-gs flex-lg-row-reverse pt-5">
+
+                                    <div>
+                                        
+
+                                        <div class="card">
+                                            <div class="card-inner">
+                                                <div class="card-head">
+                                                    <h5 class="card-title">Edit {{the_game.name}}</h5>
+                                                </div>
+                                                <form action="#" method="POST" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="item_id" class="form-control" id="item_id" value="{{the_game.id}}">
+                                                    <div class="row g-4">
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="full-name-1">Item Name</label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="text" name="item_name" class="form-control" id="item_name" value="{{the_game.name}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="email-address-1"> Price </label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="number" name="price" class="form-control" id="price" value="{{the_game.price}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="email-address-1">Number in Stock </label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="number" name="numberInStock" class="form-control" id="numberInStock" value="{{the_game.numberInStock}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="thumbnailImagePath"> Change  Thumbnail Image Path </label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="custom-file">
+                                                                        <input name="thumbnailImagePath" type="file" class="custom-file-input" id="thumbnailImagePath" > 
+                                                                        <label class="custom-file-label" for="thumbnailImagePath">Choose file</label> 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="bannerImagePath"> Change Banner Image Path </label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="custom-file">
+                                                                        <input name="bannerImagePath" type="file" class="custom-file-input" id="bannerImagePath" > 
+                                                                        <label class="custom-file-label" for="bannerImagePath">Choose file</label> 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="displayImagePath"> Display Image Path </label>
+                                                                <div class="form-control-wrap">
+                                                                    <div class="custom-file">
+                                                                        <input name="displayImagePath" type="file" class="custom-file-input" id="displayImagePath" > 
+                                                                        <label class="custom-file-label" for="displayImagePath">Choose file</label> 
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="featured">To be featured ?</label>
+                                                                <div class="form-control-wrap ">
+                                                                    <div class="form-control-select">
+                                                                        
+                                                                        <select name="featured" class="form-control" id="featured" required>
+                                                                         
+                                                                            <option value="false"> False  </option>
+                                                                            <option value="true"> True  </option>
+                                                                   
+                                                                        </select>
+                                                                      
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-6">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="email-address-1"> Discount Price ? </label>
+                                                                <div class="form-control-wrap">
+                                                                    <input type="number" name="discount_price" class="form-control" id="discount_price" value="{{the_game.discount_price}}">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+
+
+
+                                                        <div class="col-12">
+                                                            <div class="form-group">
+                                                                <button type="submit" class="btn btn-lg btn-primary">Save Informations</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div><!-- .row -->
+                            </div>
+                        </div>
+                    </div><!-- .nk-block -->
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content @e -->
+
+
+{% endblock content %}

@@ -1,0 +1,168 @@
+{% extends 'rentals/base.html' %}
+{% load tagger %}
+
+{% block content %}
+
+
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block-head nk-block-head-sm">
+                                    <div class="nk-block-between g-3">
+                                        <div class="nk-block-head-content">
+                                            <h3 class="nk-block-title page-title">Game Trailers</h3>
+                                            <div class="nk-block-des text-soft">
+                                                <p>You have total <span class="text-base"> {{count}} </span> Trailers.</p>
+                                            </div>
+                                        </div>
+                                        <div class="nk-block-head-content">
+                                            <a href="#" data-target="addProduct" class="toggle btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-plus"></em><span>Add new Trailer</span></a>
+                                            <a href="#" data-target="addProduct" class="toggle btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-download-cloud"></em></a>
+                                        </div>
+                                    </div>
+                                </div><!-- .nk-block-head -->
+
+
+
+                                <div class="nk-block">
+                                    <div class="row g-gs">
+
+                                        {% if trailers %}
+                                        {% for val in trailers %}
+                                        <div class="col-sm-6 col-lg-4 col-xxl-3">
+                                            <div class="gallery card card-bordered">
+                                                <a class="gallery-image popup-image" href="{{val.trailer_banner}}">
+                                                    <img class="w-100 rounded-top" src="{{val.trailer_banner}}"  alt="">
+                                                </a>
+                                                <div class="gallery-body card-inner align-center justify-between flex-wrap g-2">
+                                                    <div class="user-card">
+                                                        <div class="user-avatar">
+                                                            <img src="{{val.platform.iconImagePath}}" alt="">
+                                                        </div>
+                                                        <div class="user-info">
+                                                            <span class="lead-text">{{val.highlight_title}}</span>
+                                              
+                                                        </div>
+                                                    </div>
+                                                   
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                        {% endif %}
+                                        
+                                        
+
+                                    </div>
+                                </div>
+
+
+
+
+
+                                <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addProduct" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
+                                    <div class="nk-block-head">
+                                        <div class="nk-block-head-content">
+                                            <h5 class="nk-block-title">Add New Trailer</h5>
+                                            <div class="nk-block-des">
+                                                <p>Add information and add new trailer.</p>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-block-head -->
+                                    <form action="#" method="post" enctype="multipart/form-data" >
+                                        {% csrf_token %}
+                                    <div class="nk-block">
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="name">Game Name </label>
+                                                    <div class="form-control-wrap">
+                                                        <input name="name" type="text" class="form-control" id="name" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="title">Trailer Title </label>
+                                                    <div class="form-control-wrap">
+                                                        <input name="title" type="text" class="form-control" id="title" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="trailerBanner"> Trailer Banner  </label>
+                                                    <div class="form-control-wrap">
+                                                        <div class="custom-file">
+                                                            <input name="trailerBanner" type="file" class="custom-file-input" id="trailerBanner" required> 
+                                                            <label class="custom-file-label" for="trailerBanner">Choose file</label> 
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="desc">Trailer Short Description </label>
+                                                    <div class="form-control-wrap">
+                                                        <input name="desc" type="text" class="form-control" id="desc">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="yt_url">Trailer Youtube URL</label>
+                                                    <div class="form-control-wrap">
+                                                        <input name="yt_url" type="text" class="form-control" id="yt_url" required>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+
+                                          
+
+                                           
+                                            <div class="col-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="platformId">Platform</label>
+                                                    <div class="form-control-wrap ">
+                                                        <div class="form-control-select">
+                                                            {% if platforms %}
+                                                            <select name="platformId" class="form-control" id="platformId" required>
+                                                                {% for val in platforms %}
+                                                                <option value="{{val.id}}"> {{val.name}}  </option>
+                                                                {% endfor %}
+                                                            </select>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                           
+                                           
+
+                                           
+                                          
+                                        
+                                            <div class="col-12">
+                                                <button type="submit" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Add New</span></button>
+                                            </div>
+                                        </div>
+                                    </div><!-- .nk-block -->
+                                </form>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+
+
+{% endblock content %}

@@ -62,7 +62,7 @@
                                 </div>
                             </div>
                             <div class="nk-tb-col">
-                                <a href="#">
+                                <a href="{% url 'members:get_user_details' user.user_email %}">
                                     <div class="user-card">
                                         <div class="user-avatar bg-primary">
                                           
@@ -162,7 +162,7 @@
                                                                 <div class="col-12">
                                                                     <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
                                                                         <li>
-                                                                            <a href="{% url 'members:approve_kyc' first_kyc.id %}" class="btn btn-lg btn-primary">Approve KYC</a>
+                                                                            <a href="{% url 'members:approve_kyc' first_kyc.id user.user_email %}" class="btn btn-lg btn-primary">Approve KYC</a>
                                                                         </li>
                                                                         
                                                                     </ul>
@@ -213,7 +213,7 @@
                                                                 <div class="col-12">
                                                                     <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
                                                                         <li>
-                                                                            <a href="{% url 'members:approve_ad' first_ad.id %}" class="btn btn-lg btn-primary">Approve Address</a>
+                                                                            <a href="{% url 'members:approve_ad' first_ad.id  user.user_email %}" class="btn btn-lg btn-primary">Approve Address</a>
                                                                         </li>
                                                                         
                                                                     </ul>
@@ -236,8 +236,8 @@
                                             <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
                                             <div class="dropdown-menu dropdown-menu-right">
                                                 <ul class="link-list-opt no-bdr">
-                                                    <li><a href="#"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
-                                                    <li><a href="#"><em class="icon ni ni-repeat"></em><span>Orders</span></a></li>
+                                                    <li><a href="{% url 'members:get_user_details' user.user_email %}"><em class="icon ni ni-eye"></em><span>View Details</span></a></li>
+                                                    
             
                                                 </ul>
                                             </div>

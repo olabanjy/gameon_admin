@@ -53,17 +53,19 @@ class Items(View):
         bannerImagePath = request.FILES["bannerImagePath"]
         platformId = request.POST.get("platformId")
         numberInStock = request.POST.get("numberInStock")
-        dailyRentalRate = request.POST.get("dailyRentalRate")
-        dailyRentalRate = request.POST.get("dailyRentalRate")
+        price = request.POST.get("price")
+        discount_price = request.POST.get("discount_price")
         featured = request.POST.get("featured")
 
         response_body = {
             "name": game_name,
             "platformId": str(platformId).strip(),
             "numberInStock": numberInStock,
-            "dailyRentalRate": dailyRentalRate,
+            "price": price,
             "featuredinput": featured,
         }
+        if discount_price:
+            response_body.update({"discount_price": discount_price})
 
         response_files = [
             ("displayImagePath", displayImagePath.file),
@@ -94,7 +96,7 @@ class Items(View):
                 "name": game_name,
                 "platformId": str(platformId).strip(),
                 "numberInStock": numberInStock,
-                "dailyRentalRate": dailyRentalRate,
+                "price": price,
                 "featured": featured,
             }
         )
@@ -108,6 +110,82 @@ class Items(View):
             return redirect("shop:games")
         else:
             return redirect("shop:games")
+
+
+class ItemDetail(View):
+    def get(self, request, item_id, *args, **kwargs):
+        the_item = requests.get(f"{items_base_url}{item_id}")
+
+        print(the_item.json())
+
+        template = "shop/sale_items_details.html"
+
+        context = {
+            "page_title": "Shop Items",
+            "the_game": the_item.json(),
+        }
+
+        return render(self.request, template, context)
+
+    def post(self, request, item_id, *args, **kwargs):
+
+        # displayImagePath = request.FILES["displayImagePath"]
+        # thumbnailImagePath = request.FILES["thumbnailImagePath"]
+        # bannerImagePath = request.FILES["bannerImagePath"]
+
+        the_item_id = request.POST.get("item_id")
+        item_name = request.POST.get("item_name")
+        numberInStock = request.POST.get("numberInStock")
+        price = request.POST.get("price")
+        discount_price = request.POST.get("discount_price")
+        featured = request.POST.get("featured")
+
+        response_files = []
+        response_body = {"id": the_item_id}
+
+        if item_name:
+            response_body.update({"name": item_name})
+        if numberInStock:
+            response_body.update({"numberInStock": numberInStock})
+        if price:
+            response_body.update({"price": price})
+
+        if discount_price:
+            response_body.update({"discount_price": discount_price})
+        if featured:
+            response_body.update({"featured": featured})
+
+        if "displayImagePath" in request.FILES:
+            response_files.append(
+                ("displayImagePath", request.FILES["displayImagePath"].file)
+            )
+        if "thumbnailImagePath" in request.FILES:
+            response_files.append(
+                ("thumbnailImagePath", request.FILES["thumbnailImagePath"].file)
+            )
+        if "bannerImagePath" in request.FILES:
+            response_files.append(
+                ("bannerImagePath", request.FILES["bannerImagePath"].file)
+            )
+
+        print(response_files)
+        print(response_body)
+
+        response = requests.post(
+            f"{items_base_url}update_shop_item/",
+            data=response_body,
+            files=response_files,
+        )
+
+        if response.status_code == 200:
+            print("Item Edited")
+            print(response.text)
+            return redirect(reverse("shop:item-details", kwargs={"item_id": item_id}))
+
+        else:
+            print(response.text)
+            print("Error Editing Game")
+            return redirect(reverse("shop:item-details", kwargs={"item_id": item_id}))
 
 
 class Platforms(View):
@@ -162,3 +240,20 @@ def mark_order_as_delivered(request, order_id):
         return redirect("shop:shop_orders")
     else:
         return redirect("shop:shop_orders")
+
+
+@login_required
+def delete_shop_item(request, item_id):
+    data = {"id": item_id}
+    item_del = response = requests.post(
+        f"{items_base_url}admin_delete_item/",
+        data=data,
+    )
+    if item_del.status_code == 200:
+        print(item_del.text)
+        print("Item Deleted")
+        return redirect("shop:games")
+    else:
+        print(item_del)
+        print("There was a problem")
+        return redirect("shop:games")
