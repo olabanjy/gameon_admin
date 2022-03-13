@@ -62,27 +62,7 @@ def approve_kyc(request, kyc_id, user_email):
     the_res = requests.post(f"{mamber_base_url}/approve_kyc/", data={"kyc_id": kyc_id})
     print(the_res.json())
     if the_res.status_code == 200:
-        try:
-            print(user_email)
-            subject, from_email, to = (
-                "KYC APPROVED",
-                "GameOn <noreply@gameon.com.ng>",
-                [user_email],
-            )
-
-            html_content = render_to_string(
-                "events/kyc_accepted.html",
-                {
-                    "email": user_email,
-                    "doc_type": "Identity Document",
-                },
-            )
-            msg = EmailMessage(subject, html_content, from_email, to)
-            msg.content_subtype = "html"
-            msg.send()
-        except:
-            pass
-
+        print("KYC approved")
     return redirect("members:all-members")
 
 
@@ -90,25 +70,5 @@ def approve_ad(request, ad_id, user_email):
     the_res = requests.post(f"{mamber_base_url}/approve_ad/", data={"ad_id": ad_id})
     print(the_res.json())
     if the_res.status_code == 200:
-        try:
-            print(user_email)
-            subject, from_email, to = (
-                "KYC APPROVED",
-                "GameOn <noreply@gameon.com.ng>",
-                [user_email],
-            )
-
-            html_content = render_to_string(
-                "events/kyc_accepted.html",
-                {
-                    "email": user_email,
-                    "doc_type": "Proof of Address!",
-                },
-            )
-            msg = EmailMessage(subject, html_content, from_email, to)
-            msg.content_subtype = "html"
-            msg.send()
-        except:
-            pass
-
+        print("Identity approved")
     return redirect("members:all-members")
