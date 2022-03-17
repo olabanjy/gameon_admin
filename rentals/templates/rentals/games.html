@@ -41,6 +41,11 @@
                                 <div class="nk-block">
                                     <div class="nk-tb-list is-separate mb-3">
                                         <div class="nk-tb-item nk-tb-head">
+                                            <div class="nk-tb-col nk-tb-col-check">
+                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    
+                                                </div>
+                                            </div>
                                            
                                             <div class="nk-tb-col tb-col-sm"><span>Name</span></div>
                                             <div class="nk-tb-col"><span>Platform</span></div>
@@ -56,7 +61,7 @@
                                                             <div class="dropdown-menu dropdown-menu-right">
                                                                 <ul class="link-list-opt no-bdr">
                                                                     <!-- <li><a href="#"><em class="icon ni ni-edit"></em><span>Edit Selected</span></a></li> -->
-                                                                    <li><a href="#"><em class="icon ni ni-trash"></em><span>Remove Selected</span></a></li>
+                                                                    <li><a href="#" onclick="removeSelected()"><em class="icon ni ni-trash"></em><span>Remove Selected</span></a></li>
                                                                     <!-- <li><a href="#"><em class="icon ni ni-bar-c"></em><span>Update Stock</span></a></li>
                                                                     <li><a href="#"><em class="icon ni ni-invest"></em><span>Update Price</span></a></li> -->
                                                                 </ul>
@@ -72,6 +77,12 @@
                                         {% for val in games %}
 
                                         <div class="nk-tb-item">
+                                            <div class="nk-tb-col nk-tb-col-check">
+                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input name="pid" type="checkbox" class="custom-control-input" id="{{val.id}}">
+                                                    <label class="custom-control-label" for="{{val.id}}"></label>
+                                                </div>
+                                            </div>
                                             
                                             <div class="nk-tb-col tb-col-sm">
                                                 <span class="tb-product">
@@ -253,3 +264,39 @@
 
 
 {% endblock content %}
+
+{% block extra_scripts %}
+<script type="text/javascript">
+
+  function removeSelected(){
+      console.log("removing selected")
+      var selected = []
+      $('input[type=checkbox]').each(function(){
+        if ($(this).is(":checked")) {
+        selected.push($(this).attr('id'));
+      }
+      })
+
+      console.log(selected)
+
+      var url = "/delete_multiple_items/"
+
+      fetch(url, {
+                method: 'POST',
+                headers:{
+                    'Content-Type':'applicaiton/json',
+                    'X-CSRFToken':csrftoken,
+                },
+                body:JSON.stringify(selected),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log(data)
+                location.reload()
+            })
+
+  }
+
+
+</script>
+{% endblock extra_scripts%}

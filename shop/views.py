@@ -8,6 +8,7 @@ from django.http import (
     HttpResponseForbidden,
     HttpResponseServerError,
 )
+from django.http.response import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, reverse, get_object_or_404, redirect
 from django.views.generic import View
@@ -257,3 +258,20 @@ def delete_shop_item(request, item_id):
         print(item_del)
         print("There was a problem")
         return redirect("shop:games")
+
+
+@login_required
+def delete_multiple_shop_items(request):
+    data = json.loads(request.body)
+    print(data)
+
+    for id in data:
+        data = {"id": id}
+        requests.post(
+            f"{items_base_url}admin_delete_item/",
+            data=data,
+        )
+
+    return JsonResponse(
+        data={"status": "all deleted"},
+    )

@@ -8,6 +8,7 @@ from django.http import (
     HttpResponseForbidden,
     HttpResponseServerError,
 )
+from django.http.response import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render, reverse, get_object_or_404, redirect
 from django.views.generic import View
@@ -243,7 +244,7 @@ def rental_orders(request):
 @login_required
 def delete_rental_item(request, item_id):
     data = {"id": item_id}
-    item_del = response = requests.post(
+    item_del = requests.post(
         f"{games_base_url}admin_delete_item/",
         data=data,
     )
@@ -255,6 +256,23 @@ def delete_rental_item(request, item_id):
         print(item_del)
         print("There was a problem")
         return redirect("rentals:games")
+
+
+@login_required
+def delete_multiple_items(request):
+    data = json.loads(request.body)
+    print(data)
+
+    for id in data:
+        data = {"id": id}
+        requests.post(
+            f"{games_base_url}admin_delete_item/",
+            data=data,
+        )
+
+    return JsonResponse(
+        data={"status": "all deleted"},
+    )
 
 
 @login_required
@@ -322,3 +340,20 @@ class Trailers(View):
             return redirect("rentals:trailers")
         else:
             return redirect("rentals:trailers")
+
+
+@login_required
+def delete_trailer(request, trailer_id):
+    data = {"id": trailer_id}
+    trailer_del = requests.post(
+        f"{settings.CLIENT_BASE_URL}trailers/admin_delete_trailer/",
+        data=data,
+    )
+    if trailer_del.status_code == 200:
+        print(trailer_del.text)
+        print("Trailer Deleted")
+        return redirect("rentals:trailers")
+    else:
+        print(trailer_del)
+        print("There was a problem")
+        return redirect("rentals:trailers")
