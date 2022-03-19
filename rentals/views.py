@@ -242,6 +242,15 @@ def rental_orders(request):
 
 
 @login_required
+def rental_order_details(request, que_id):
+    template = "rentals/order_details.html"
+    que = requests.get(f"{settings.CLIENT_BASE_URL}rental/que/{que_id}")
+
+    context = {"que": que.json()}
+    return render(request, template, context)
+
+
+@login_required
 def delete_rental_item(request, item_id):
     data = {"id": item_id}
     item_del = requests.post(

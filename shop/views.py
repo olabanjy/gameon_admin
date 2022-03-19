@@ -232,6 +232,14 @@ def shop_orders(request):
 
 
 @login_required
+def shop_order_details(request, order_id):
+    template = "shop/shop_order_details.html"
+    order = requests.get(f"{settings.CLIENT_BASE_URL}shop/item/order/{order_id}")
+    context = {"order": order.json()}
+    return render(request, template, context)
+
+
+@login_required
 def mark_order_as_delivered(request, order_id):
     data = {"id": order_id}
     order_del = requests.post(

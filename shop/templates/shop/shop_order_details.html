@@ -9,7 +9,7 @@
                 <div class="nk-block-head nk-block-head-sm">
                     <div class="nk-block-between">
                         <div class="nk-block-head-content">
-                            <h4 class="nk-block-title page-title">{{que.ref_code}}</h4>
+                            <h4 class="nk-block-title page-title">{{order.ref_code}}</h4>
                         </div><!-- .nk-block-head-content -->
                     </div><!-- .nk-block-between -->
                 </div><!-- .nk-block-head -->
@@ -24,9 +24,9 @@
                                         </div>
                                       
                                     </div>
-                                    {% if que.items %}
+                                    {% if order.items %}
                                     <ul class="nk-top-products">
-                                        {% for item in que.items %}
+                                        {% for item in order.items %}
                                         <li class="item">
                                             <div class="thumb">
                                                 <img src="{{item.item.thumbnailImagePath}}" alt="">
@@ -55,48 +55,48 @@
                                 <div class="card-inner">
                                     <div class="card-title-group mb-2">
                                         <div class="card-title">
-                                            <h6 class="title">Que Order Details</h6>
+                                            <h6 class="title">Order Details</h6>
                                         </div>
                                     </div>
                                     <ul class="nk-store-statistics">
                                         <li class="item">
                                             <div class="info">
-                                                <div class="title">{{que.user.first_name}} {{que.user.last_name}} <br> {{que.user.user_email}} <br> {{que.user.phone}} </div>
+                                                <div class="title">{{order.user.first_name}} {{order.user.last_name}} <br> {{order.user.user_email}} <br> {{order.user.phone}} </div>
                                                 <div style="font-size: small !important;" class="count">Customer</div>
                                             </div>
                                             <em class="icon bg-purple-dim ni ni-user-alt"></em>
                                         </li>
                                         <li class="item">
                                             <div class="info">
-                                                <div class="title">{{que.shipping_address.street_address}}, {{que.shipping_address.city}}, {{que.shipping_address.state}} </div>
+                                                <div class="title">{{order.shipping_address.street_address}}, {{order.shipping_address.city}}, {{order.shipping_address.state}} </div>
                                                 <div style="font-size: small !important;" class="count">Shipping Address</div>
                                             </div>
                                             <em class="icon bg-primary-dim ni ni-bag"></em>
                                         </li>
                                         <li class="item">
                                             <div class="info">
-                                                <div class="title">₦{{que.shipping_fee}}</div>
+                                                <div class="title">₦{{order.shipping_fee}}</div>
                                                 <div style="font-size: small !important;" class="count">Shipping Fee</div>
                                             </div>
                                             <em class="icon bg-info-dim ni ni-users"></em>
                                         </li>
                                         <li class="item">
                                             <div class="info">
-                                                <div class="title">₦{{que.que_total}}</div>
+                                                <div class="title">₦{{order.order_total}}</div>
                                                 <div style="font-size: small !important;" class="count">Order Total</div>
                                             </div>
                                             <em class="icon bg-pink-dim ni ni-box"></em>
                                         </li>
                                         <li class="item">
                                             <div class="info">
-                                                <div class="title">{{que.ordered_date}}</div>
+                                                <div class="title">{{order.ordered_date}}</div>
                                                 <div style="font-size: small !important;" class="count">Ordered Date</div>
                                             </div>
                                             <em class="icon bg-purple-dim ni ni-server"></em>
                                         </li>
                                         <li class="item">
                                             <div class="info">
-                                                <div class="title">Received: {{que.received}}</div>
+                                                <div class="title">Received: {{order.received}}</div>
                                                 <div style="font-size: small !important;" class="count">Delivery Status</div>
                                             </div>
                                             <em class="icon bg-purple-dim ni ni-server"></em>

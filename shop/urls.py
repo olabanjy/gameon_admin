@@ -19,4 +19,7 @@ urlpatterns = [
         delete_multiple_shop_items,
         name="delete_multiple_shop_items",
     ),
+    path(
+        "shop_order_details/<order_id>/", shop_order_details, name="shop_order_details"
+    ),
 ]

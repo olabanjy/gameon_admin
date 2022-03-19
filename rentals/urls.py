@@ -22,4 +22,10 @@ urlpatterns = [
         delete_multiple_items,
         name="delete_trailer",
     ),
+    path(
+        "rental_order_details/<que_id>/",
+        rental_order_details,
+        name="rental_order_details",
+    ),
+    # rental_order_details
 ]
