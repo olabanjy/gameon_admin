@@ -2,8 +2,8 @@ from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
-# ALLOWED_HOSTS = ["52.91.98.88", "admin.gameon.com.ng"]
+# ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["159.89.228.221", "admin.gameon.com.ng"]
 
 
 DATABASES = {
@@ -13,6 +13,18 @@ DATABASES = {
     }
 }
 
+
+# DATABASES = {
+#     "default": {
+#         # 'ENGINE': 'django.db.backends.postgresql',
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": "gameon_admin",
+#         "USER": "olabanji",
+#         "PASSWORD": "olabanji",
+#         "HOST": "localhost",
+#         "PORT": "5432",
+#     }
+# }
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.zoho.com"
