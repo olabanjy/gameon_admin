@@ -123,8 +123,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-CLIENT_BASE_URL = "https://gameon.com.ng/api/v1/"
-# CLIENT_BASE_URL = "http://127.0.0.1:8800/api/v1/"
+# CLIENT_BASE_URL = "https://gameon.com.ng/api/v1/"
+CLIENT_BASE_URL = "http://127.0.0.1:8800/api/v1/"
 
 
 ACCOUNT_EMAIL_REQUIRED = True

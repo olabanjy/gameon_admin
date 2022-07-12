@@ -48,7 +48,7 @@
                                             </div>
                                            
                                             <div class="nk-tb-col tb-col-sm"><span>Name</span></div>
-                                            <div class="nk-tb-col"><span>Platform</span></div>
+                                            <!-- <div class="nk-tb-col"><span>Cat</span></div> -->
                                             <div class="nk-tb-col"><span>Daily Rental Rate</span></div>
                                             <div class="nk-tb-col"><span>Number In Stock</span></div>
                                             <div class="nk-tb-col tb-col-md"><span>Vendor</span></div>
@@ -90,9 +90,11 @@
                                                     <span class="title">{{val.name}}</span>
                                                 </span>
                                             </div>
-                                            <div class="nk-tb-col">
-                                                <span class="tb-sub">{{val.platform.name}}</span>
-                                            </div>
+                                            <!-- <div class="nk-tb-col">
+                                                {% for item in val.cat %}
+                                                <span class="tb-sub">{{item.name}}</span>
+                                                {% endfor %}
+                                            </div> -->
                                             <div class="nk-tb-col">
                                                 <span class="tb-lead">₦{{val.dailyRentalRate}}</span>
                                             </div>
@@ -195,12 +197,12 @@
                                            
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="platformId">Platform</label>
+                                                    <label class="form-label" for="categoryId">Categories</label>
                                                     <div class="form-control-wrap ">
                                                         <div class="form-control-select">
-                                                            {% if platforms %}
-                                                            <select name="platformId" class="form-control" id="platformId" required>
-                                                                {% for val in platforms %}
+                                                            {% if cats %}
+                                                            <select name="categoryId" class="form-select" multiple="multiple" id="categoryId" required>
+                                                                {% for val in cats %}
                                                                 <option value="{{val.id}}"> {{val.name}}  </option>
                                                                 {% endfor %}
                                                             </select>
@@ -209,6 +211,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            
                                             <div class="col-mb-6">
                                                 <div class="form-group">
                                                     <label class="form-label" for="numberInStock">Number In Stock</label>

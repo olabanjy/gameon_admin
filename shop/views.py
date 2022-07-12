@@ -28,12 +28,15 @@ from .models import *
 
 items_base_url = f"{settings.CLIENT_BASE_URL}shop/items/"
 platform_base_url = f"{settings.CLIENT_BASE_URL}shop/item/platform/"
+cat_base_url = f"{settings.CLIENT_BASE_URL}shop/item/cat/"
 
 
 class Items(View):
     def get(self, request, *args, **kwargs):
 
-        platforms = requests.get(f"{platform_base_url}?timestamp={time.time()}")
+        # platforms = requests.get(f"{platform_base_url}?timestamp={time.time()}")
+
+        cats = requests.get(f"{cat_base_url}?timestamp={time.time()}")
 
         items = requests.get(f"{items_base_url}?timestamp={time.time()}")
 
@@ -41,7 +44,8 @@ class Items(View):
 
         context = {
             "page_title": "Shop Items",
-            "platforms": platforms.json(),
+            # "platforms": platforms.json(),
+            "cats": cats.json(),
             "games": items.json(),
         }
 
@@ -52,15 +56,19 @@ class Items(View):
         displayImagePath = request.FILES["displayImagePath"]
         thumbnailImagePath = request.FILES["thumbnailImagePath"]
         bannerImagePath = request.FILES["bannerImagePath"]
-        platformId = request.POST.get("platformId")
+        # platformId = request.POST.get("platformId")
         numberInStock = request.POST.get("numberInStock")
         price = request.POST.get("price")
         discount_price = request.POST.get("discount_price")
         featured = request.POST.get("featured")
 
+        catId = []
+        for id in request.POST.getlist("categoryId"):
+            catId.append(id)
+
         response_body = {
             "name": game_name,
-            "platformId": str(platformId).strip(),
+            "catId": catId,
             "numberInStock": numberInStock,
             "price": price,
             "featuredinput": featured,
@@ -95,7 +103,7 @@ class Items(View):
                 ),
                 # plain text fields
                 "name": game_name,
-                "platformId": str(platformId).strip(),
+                "catId": catId,
                 "numberInStock": numberInStock,
                 "price": price,
                 "featured": featured,
@@ -191,9 +199,9 @@ class ItemDetail(View):
 
 class Platforms(View):
     def get(self, request, *args, **kwargs):
-        platforms = requests.get(f"{platform_base_url}?timestamp={time.time()}")
+        platforms = requests.get(f"{cat_base_url}?timestamp={time.time()}")
         template = "shop/platforms.html"
-        context = {"page_title": "Games Platforms", "platforms": platforms.json()}
+        context = {"page_title": "Games Categories", "platforms": platforms.json()}
         return render(self.request, template, context)
 
     def post(self, request, *args, **kwargs):
@@ -211,14 +219,14 @@ class Platforms(View):
         )
         # response = requests.post(f"{platform_base_url}", json=response_data)
         response = requests.post(
-            f"{platform_base_url}admin_create_plat/",
+            f"{cat_base_url}admin_create_cat/",
             data=multipart_data,
             headers={"Content-Type": multipart_data.content_type},
         )
         if response.status_code == 200:
-            return redirect("rentals:platforms")
+            return redirect("shop:platforms")
         else:
-            return redirect("rentals:platforms")
+            return redirect("shop:platforms")
 
 
 @login_required
@@ -266,6 +274,23 @@ def delete_shop_item(request, item_id):
         print(item_del)
         print("There was a problem")
         return redirect("shop:games")
+
+
+@login_required
+def delete_shop_category(request, item_id):
+    data = {"catId": item_id}
+    item_del = requests.post(
+        f"{cat_base_url}admin_delete_cat/",
+        data=data,
+    )
+    if item_del.status_code == 200:
+        print(item_del.text)
+        print("Category Delivered")
+        return redirect("shop:platforms")
+    else:
+        print(item_del)
+        print("There was a problem")
+        return redirect("shop:platforms")
 
 
 @login_required

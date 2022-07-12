@@ -16,6 +16,9 @@ urlpatterns = [
     path("orders/", rental_orders, name="rental_orders"),
     path("que/<que_id>/", mark_que_as_delivered, name="mark_que_as_delivered"),
     path("delete-game/<item_id>/", delete_rental_item, name="delete_rental_item"),
+    path(
+        "delete-cat/<item_id>/", delete_rental_category, name="delete_rental_category"
+    ),
     path("delete_multiple_items/", delete_multiple_items, name="delete_multiple_items"),
     path(
         "delete_trailer/<trailer_id>/",

@@ -2,8 +2,8 @@ from .base import *
 
 DEBUG = True
 
-# ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ["52.91.98.88", "admin.gameon.com.ng"]
+ALLOWED_HOSTS = ["*"]
+# ALLOWED_HOSTS = ["52.91.98.88", "admin.gameon.com.ng"]
 
 
 DATABASES = {

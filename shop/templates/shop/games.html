@@ -49,7 +49,7 @@
                                             </div>
                                            
                                             <div class="nk-tb-col tb-col-sm"><span>Name</span></div>
-                                            <div class="nk-tb-col"><span>Platform</span></div>
+                                      
                                             <div class="nk-tb-col"><span>Price</span></div>
                                             <div class="nk-tb-col"><span>Number In Stock</span></div>
                                             <div class="nk-tb-col tb-col-md"><span>Vendor</span></div>
@@ -91,9 +91,7 @@
                                                     <span class="title">{{val.name}}</span>
                                                 </span>
                                             </div>
-                                            <div class="nk-tb-col">
-                                                <span class="tb-sub">{{val.platform.name}}</span>
-                                            </div>
+                                          
                                             <div class="nk-tb-col">
                                                 <span class="tb-lead">₦{{val.price}}</span>
                                             </div>
@@ -130,9 +128,9 @@
                                         {% endif %}
 
                                     </div><!-- .nk-tb-list -->
-                                   
+                                    
                                 </div><!-- .nk-block -->
-                                <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addProduct" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar>
+                                <div class="nk-add-product toggle-slide toggle-slide-right" data-content="addProduct" data-toggle-screen="any" data-toggle-overlay="true" data-toggle-body="true" data-simplebar >
                                     <div class="nk-block-head">
                                         <div class="nk-block-head-content">
                                             <h5 class="nk-block-title">Add New Shop Item</h5>
@@ -141,7 +139,7 @@
                                             </div>
                                         </div>
                                     </div><!-- .nk-block-head -->
-                                    <form action="#" method="post" enctype="multipart/form-data" >
+                                    <form  method="post" enctype="multipart/form-data" >
                                         {% csrf_token %}
                                     <div class="nk-block">
                                         <div class="row g-3">
@@ -194,12 +192,12 @@
                                            
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label class="form-label" for="platformId">Platform</label>
+                                                    <label class="form-label" for="categoryId">Categories</label>
                                                     <div class="form-control-wrap ">
                                                         <div class="form-control-select">
-                                                            {% if platforms %}
-                                                            <select name="platformId" class="form-control" id="platformId" required>
-                                                                {% for val in platforms %}
+                                                            {% if cats %}
+                                                            <select name="categoryId" class="form-select" multiple="multiple" id="categoryId" required>
+                                                                {% for val in cats %}
                                                                 <option value="{{val.id}}"> {{val.name}}  </option>
                                                                 {% endfor %}
                                                             </select>
@@ -208,6 +206,9 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+
+
                                             <div class="col-mb-6">
                                                 <div class="form-group">
                                                     <label class="form-label" for="numberInStock">Number In Stock</label>

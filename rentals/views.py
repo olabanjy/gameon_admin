@@ -1,3 +1,4 @@
+from nis import cat
 from django import template
 from django.contrib import messages
 from django.conf import settings
@@ -28,6 +29,7 @@ from .models import *
 
 games_base_url = f"{settings.CLIENT_BASE_URL}rental/items/"
 platform_base_url = f"{settings.CLIENT_BASE_URL}rental/platform/"
+cat_base_url = f"{settings.CLIENT_BASE_URL}rental/cat/"
 
 
 def overview(request):
@@ -42,7 +44,7 @@ def overview(request):
 class Games(View):
     def get(self, request, *args, **kwargs):
 
-        platforms = requests.get(f"{platform_base_url}?timestamp={time.time()}")
+        cats = requests.get(f"{cat_base_url}?timestamp={time.time()}")
 
         games = requests.get(f"{games_base_url}")
         print(games.json())
@@ -51,7 +53,7 @@ class Games(View):
 
         context = {
             "page_title": "Rental Games",
-            "platforms": platforms.json(),
+            "cats": cats.json(),
             "games": games.json(),
         }
 
@@ -62,15 +64,19 @@ class Games(View):
         displayImagePath = request.FILES["displayImagePath"]
         thumbnailImagePath = request.FILES["thumbnailImagePath"]
         bannerImagePath = request.FILES["bannerImagePath"]
-        platformId = request.POST.get("platformId")
+        categoryId = request.POST.get("categoryId")
         numberInStock = request.POST.get("numberInStock")
         dailyRentalRate = request.POST.get("dailyRentalRate")
         dailyRentalRate = request.POST.get("dailyRentalRate")
         featured = request.POST.get("featured")
 
+        catId = []
+        for id in request.POST.getlist("categoryId"):
+            catId.append(id)
+
         response_body = {
             "name": game_name,
-            "platformId": str(platformId).strip(),
+            "catId": catId,
             "numberInStock": numberInStock,
             "dailyRentalRate": dailyRentalRate,
             "featuredinput": featured,
@@ -104,7 +110,7 @@ class Games(View):
                 ),
                 # plain text fields
                 "name": game_name,
-                "platformId": str(platformId).strip(),
+                "catId": catId,
                 "numberInStock": numberInStock,
                 "dailyRentalRate": dailyRentalRate,
                 "featured": featured,
@@ -142,10 +148,6 @@ class GameDetail(View):
         return render(self.request, template, context)
 
     def post(self, request, item_id, *args, **kwargs):
-
-        # displayImagePath = request.FILES["displayImagePath"]
-        # thumbnailImagePath = request.FILES["thumbnailImagePath"]
-        # bannerImagePath = request.FILES["bannerImagePath"]
 
         the_item_id = request.POST.get("item_id")
         item_name = request.POST.get("item_name")
@@ -204,9 +206,10 @@ class GameDetail(View):
 
 class Platforms(View):
     def get(self, request, *args, **kwargs):
-        platforms = requests.get(f"{platform_base_url}?timestamp={time.time()}")
+        platforms = requests.get(f"{cat_base_url}?timestamp={time.time()}")
+        print(platforms.json())
         template = "rentals/platforms.html"
-        context = {"page_title": "Games Platforms", "platforms": platforms.json()}
+        context = {"page_title": "Games Categories", "platforms": platforms.json()}
         return render(self.request, template, context)
 
     def post(self, request, *args, **kwargs):
@@ -223,7 +226,7 @@ class Platforms(View):
             }
         )
         response = requests.post(
-            f"{platform_base_url}admin_create_plat/",
+            f"{cat_base_url}admin_create_cat/",
             data=multipart_data,
             headers={"Content-Type": multipart_data.content_type},
         )
@@ -265,6 +268,23 @@ def delete_rental_item(request, item_id):
         print(item_del)
         print("There was a problem")
         return redirect("rentals:games")
+
+
+@login_required
+def delete_rental_category(request, item_id):
+    data = {"catId": item_id}
+    item_del = requests.post(
+        f"{cat_base_url}admin_delete_cat/",
+        data=data,
+    )
+    if item_del.status_code == 200:
+        print(item_del.text)
+        print("Category Delivered")
+        return redirect("rentals:platforms")
+    else:
+        print(item_del)
+        print("There was a problem")
+        return redirect("rentals:platforms")
 
 
 @login_required
