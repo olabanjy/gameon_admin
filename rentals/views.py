@@ -345,11 +345,9 @@ class Trailers(View):
         yt_url = request.POST.get("yt_url")
         desc = request.POST.get("desc")
         trailerBanner = request.FILES["trailerBanner"]
-        platformId = request.POST.get("platformId")
 
         response_body = {
             "name": name,
-            "platformId": str(platformId).strip(),
             "yt_url": yt_url,
             "title": title,
         }

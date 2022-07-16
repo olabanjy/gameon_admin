@@ -38,9 +38,7 @@
                                                 </a>
                                                 <div class="gallery-body card-inner align-center justify-between flex-wrap g-2">
                                                     <div class="user-card">
-                                                        <div class="user-avatar">
-                                                            <img src="{{val.platform.iconImagePath}}" alt="">
-                                                        </div>
+                                                      
                                                         <div class="user-info">
                                                             <span class="lead-text">{{val.highlight_title}}</span>
                                               
@@ -127,28 +125,7 @@
                                             </div>
                                            
 
-                                          
-
-                                           
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label class="form-label" for="platformId">Platform</label>
-                                                    <div class="form-control-wrap ">
-                                                        <div class="form-control-select">
-                                                            {% if platforms %}
-                                                            <select name="platformId" class="form-control" id="platformId" required>
-                                                                {% for val in platforms %}
-                                                                <option value="{{val.id}}"> {{val.name}}  </option>
-                                                                {% endfor %}
-                                                            </select>
-                                                            {% endif %}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                           
-                                           
-
+         
                                            
                                           
                                         
