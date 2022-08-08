@@ -82,9 +82,9 @@
                               {% if user.user_kyc %}
                                 {% with user.user_kyc|first as first_kyc %}
                                     {% if first_kyc.status == "not_submitted" %}
-                                    <span class="tb-status text-warning">Not Submitted </span>
+                                    <span class="tb-status text-danger">Not Submitted </span>
                                     {% elif first_kyc.status == "submitted" %}
-                                    <span class="tb-status text-warning">Pending </span>
+                                    <span class="tb-status text-danger">Pending </span>
                                     {% elif first_kyc.status == "approved" %}
                                     <span class="tb-status text-success">Approved </span>
                                     {% elif first_kyc.status == "rejected" %}
@@ -92,7 +92,7 @@
                                     {% endif %}
                                 {% endwith %}
                                 {% else %}
-                                <span class="tb-status text-warning">Not Submitted </span>
+                                <span class="tb-status text-danger">Not Submitted </span>
                                 {% endif %}
                         
                             </div>
@@ -101,9 +101,9 @@
                                 {% if user.user_address_verification %}
                                   {% with user.user_address_verification|first as first_ad %}
                                       {% if first_ad.status == "not_submitted" %}
-                                      <span class="tb-status text-warning">Not Submitted </span>
+                                      <span class="tb-status text-danger">Not Submitted </span>
                                       {% elif first_ad.status == "submitted" %}
-                                      <span class="tb-status text-warning">Pending </span>
+                                      <span class="tb-status text-danger">Pending </span>
                                       {% elif first_ad.status == "approved" %}
                                       <span class="tb-status text-success">Approved </span>
                                       {% elif first_ad.status == "rejected" %}
@@ -111,7 +111,7 @@
                                       {% endif %}
                                   {% endwith %}
                                   {% else %}
-                                  <span class="tb-status text-warning">Not Submitted </span>
+                                  <span class="tb-status text-danger">Not Submitted </span>
                                   {% endif %}
                           
                               </div>
@@ -130,7 +130,7 @@
                                 <ul class="nk-tb-actions gx-1">
                                     {% if user.user_kyc %}
                                         {% with user.user_kyc|first as first_kyc %}   
-                                        {% if first_kyc.status == "submitted" %}
+                                        {% if  first_kyc.status == "submitted" %}
                                     <li class="nk-tb-action-hidden">
                                         <a href="#" class="btn btn-trigger btn-icon" data-toggle="modal" data-target="#user_kyc_{{first_kyc.id}}" data-placement="top" title="Approve KYC">
                                             <em class="icon ni ni-focus"></em>

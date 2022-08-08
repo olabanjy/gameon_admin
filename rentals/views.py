@@ -69,10 +69,14 @@ class Games(View):
         dailyRentalRate = request.POST.get("dailyRentalRate")
         dailyRentalRate = request.POST.get("dailyRentalRate")
         featured = request.POST.get("featured")
+        desc = request.POST.get("item_desc")
 
         catId = []
         for id in request.POST.getlist("categoryId"):
             catId.append(id)
+
+        if desc:
+            response_body.update({"desc": desc})
 
         response_body = {
             "name": game_name,
@@ -154,6 +158,7 @@ class GameDetail(View):
         numberInStock = request.POST.get("numberInStock")
         dailyRentalRate = request.POST.get("dailyRentalRate")
         featured = request.POST.get("featured")
+        desc = request.POST.get("item_desc")
 
         response_files = []
         response_body = {"id": the_item_id}
@@ -166,6 +171,8 @@ class GameDetail(View):
             response_body.update({"dailyRentalRate": dailyRentalRate})
         if featured:
             response_body.update({"featured": featured})
+        if desc:
+            response_body.update({"desc": desc})
 
         if "displayImagePath" in request.FILES:
             response_files.append(

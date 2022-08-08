@@ -61,6 +61,7 @@ class Items(View):
         price = request.POST.get("price")
         discount_price = request.POST.get("discount_price")
         featured = request.POST.get("featured")
+        desc = request.POST.get("item_desc")
 
         catId = []
         for id in request.POST.getlist("categoryId"):
@@ -75,6 +76,9 @@ class Items(View):
         }
         if discount_price:
             response_body.update({"discount_price": discount_price})
+
+        if desc:
+            response_body.update({"desc": desc})
 
         response_files = [
             ("displayImagePath", displayImagePath.file),
@@ -148,6 +152,7 @@ class ItemDetail(View):
         price = request.POST.get("price")
         discount_price = request.POST.get("discount_price")
         featured = request.POST.get("featured")
+        desc = request.POST.get("item_desc")
 
         response_files = []
         response_body = {"id": the_item_id}
@@ -163,6 +168,9 @@ class ItemDetail(View):
             response_body.update({"discount_price": discount_price})
         if featured:
             response_body.update({"featured": featured})
+
+        if desc:
+            response_body.update({"desc": desc})
 
         if "displayImagePath" in request.FILES:
             response_files.append(

@@ -111,10 +111,28 @@
                                 </li>
 
                                 <li class="nk-menu-item">
-                                    <a href="#" class="nk-menu-link">
-                                        <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                                    <a href="#" class="nk-menu-link nk-menu-toggle">
+                                        <span class="nk-menu-icon"><em class="icon ni ni-tile-thumb-fill"></em></span>
                                         <span class="nk-menu-text">Vendors</span>
                                     </a>
+
+                                    <ul class="nk-menu-sub">
+                                        <li class="nk-menu-item">
+                                            <a href="{% url 'vendors:all-vendors' %}" class="nk-menu-link"><span class="nk-menu-text">Vendor List</span></a>
+                                        </li>
+
+                                        <li class="nk-menu-item">
+                                            <a href="{% url 'vendors:vendor-items' %}" class="nk-menu-link"><span class="nk-menu-text">Shop Item Approval</span></a>
+                                        </li>
+
+                                        <li class="nk-menu-item">
+                                            <a href="{% url 'vendors:rental-vendor-items' %}" class="nk-menu-link"><span class="nk-menu-text">Rental Item Approval</span></a>
+                                        </li>
+                                       
+                                        
+                                    </ul>
+
+
                                 </li>
                               
                              

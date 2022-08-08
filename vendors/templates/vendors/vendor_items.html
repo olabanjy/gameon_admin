@@ -1,0 +1,145 @@
+{% extends 'rentals/base.html' %}
+{% load tagger %}
+
+{% block content %}
+                <!-- content @s -->
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+                                <div class="nk-block-head nk-block-head-sm">
+                                    <div class="nk-block-between">
+                                        <div class="nk-block-head-content">
+                                            <h3 class="nk-block-title page-title">Vendor Shop Items </h3>
+                                        </div><!-- .nk-block-head-content -->
+                                        <div class="nk-block-head-content">
+                                            <div class="toggle-wrap nk-block-tools-toggle">
+                                                <a href="#" class="btn btn-icon btn-trigger toggle-expand mr-n1" data-target="pageMenu"><em class="icon ni ni-more-v"></em></a>
+                                                <div class="toggle-expand-content" data-content="pageMenu">
+                                                    <ul class="nk-block-tools g-3">
+                                                        <li>
+                                                            <div class="form-control-wrap">
+                                                                <div class="form-icon form-icon-right">
+                                                                    <em class="icon ni ni-search"></em>
+                                                                </div>
+                                                                <input type="text" class="form-control" id="default-04" placeholder="Quick search by id">
+                                                            </div>
+                                                        </li>
+                                                       
+                                                        <li class="nk-block-tools-opt">
+                                                            <a href="#" data-target="addProduct" class="toggle btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
+                                                            <a href="#" data-target="addProduct" class="toggle btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add New Shop Item </span></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div><!-- .nk-block-head-content -->
+                                    </div><!-- .nk-block-between -->
+                                </div><!-- .nk-block-head -->
+                                <div class="nk-block">
+                                    <div class="nk-tb-list is-separate mb-3">
+                                        <div class="nk-tb-item nk-tb-head">
+
+                                            <div class="nk-tb-col nk-tb-col-check">
+                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    
+                                                </div>
+                                            </div>
+                                           
+                                            <div class="nk-tb-col tb-col-sm"><span>Name</span></div>
+                                      
+                                            <div class="nk-tb-col"><span>Price</span></div>
+                                            <div class="nk-tb-col"><span>Number In Stock</span></div>
+                                            <div class="nk-tb-col tb-col-md"><span>Vendor</span></div>
+                                            <div class="nk-tb-col tb-col-md"><em class="tb-asterisk icon ni ni-star-round"></em></div>
+                                            <div class="nk-tb-col nk-tb-col-tools">
+                                                <ul class="nk-tb-actions gx-1 my-n1">
+                                                    <li class="mr-n1">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <ul class="link-list-opt no-bdr">
+                                                                    <!-- <li><a href="#"><em class="icon ni ni-edit"></em><span>Edit Selected</span></a></li> -->
+                                                                    <li><a href="#" onclick=""><em class="icon ni ni-trash"></em><span>Approve Selected</span></a></li>
+                                                                    <!-- <li><a href="#"><em class="icon ni ni-bar-c"></em><span>Update Stock</span></a></li>
+                                                                    <li><a href="#"><em class="icon ni ni-invest"></em><span>Update Price</span></a></li> -->
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div><!-- .nk-tb-item -->
+
+                                        {% if items %}
+
+                                        {% for val in items %}
+
+                                        <div class="nk-tb-item">
+                                            <div class="nk-tb-col nk-tb-col-check">
+                                                <div class="custom-control custom-control-sm custom-checkbox notext">
+                                                    <input name="pid" type="checkbox" class="custom-control-input" id="{{val.id}}">
+                                                    <label class="custom-control-label" for="{{val.id}}"></label>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="nk-tb-col tb-col-sm">
+                                                <span class="tb-product">
+                                                    <img src="{{val.thumbnailImagePath}}" alt="" class="thumb">
+                                                    <span class="title">{{val.name}}</span>
+                                                </span>
+                                            </div>
+                                          
+                                            <div class="nk-tb-col">
+                                                <span class="tb-lead">₦{{val.price}}</span>
+                                            </div>
+                                            <div class="nk-tb-col">
+                                                <span class="tb-sub">{{val.numberInStock}}</span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <span class="tb-lead"> {{val.vendor.first_name}} {{val.vendor.last_name}} </span>
+                                                <span> {{val.vendor.vendor_code}} </span>
+                                            </div>
+                                            <div class="nk-tb-col tb-col-md">
+                                                <div class="asterisk tb-asterisk">
+                                                    <a href="#"><em class="asterisk-off icon ni ni-star"></em><em class="asterisk-on icon ni ni-star-fill"></em></a>
+                                                </div>
+                                            </div>
+                                            <div class="nk-tb-col nk-tb-col-tools">
+                                                <ul class="nk-tb-actions gx-1 my-n1">
+                                                    <li class="mr-n1">
+                                                        <div class="dropdown">
+                                                            <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                            <div class="dropdown-menu dropdown-menu-right">
+                                                                <ul class="link-list-opt no-bdr">
+                                                                    <li><a href="{% url 'vendors:item-details' val.id %}"><em class="icon ni ni-edit"></em><span>View Product Detail</span></a></li>
+                                                                    <!-- <li><a href="#"><em class="icon ni ni-eye"></em><span>Approve Product</span></a></li> -->
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div><!-- .nk-tb-item -->
+                                        {% endfor %}
+                                        {% endif %}
+
+                                    </div><!-- .nk-tb-list -->
+                                    
+                                </div><!-- .nk-block -->
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+
+
+
+
+{% endblock content %}
+
+{% block extra_scripts %}
+
+{% endblock extra_scripts%}

@@ -1,0 +1,163 @@
+{% extends 'rentals/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+
+
+                <!-- content @s -->
+                <div class="nk-content nk-content-fluid">
+                    <div class="container-xl wide-lg">
+                        <div class="nk-content-body">
+
+
+                            <div class="nk-block-head nk-block-head-sm">
+                                <div class="nk-block-between g-3">
+                                    <div class="nk-block-head-content">
+                                        <h3 class="nk-block-title page-title">Vendor / <strong class="text-primary small">{{user.first_name}} {{user.last_name}} </strong></h3>
+                                        <div class="nk-block-des text-soft">
+                                            <ul class="list-inline">
+                                                <li>Vendor Code: <span class="text-base">{{user.vendor_code}}</span></li>
+                                                <li>Date Joined: <span class="text-base">{{user.time_joined|naturaltime}}</span></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="nk-block-head-content">
+                                        <a href="{% url 'vendors:all-vendors' %}" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                                        <a href="{% url 'vendors:all-vendors' %}" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
+                                    </div>
+                                </div>
+                            </div><!-- .nk-block-head -->
+                            <div class="nk-block">
+                                <div class="row gy-5">
+                                    <div class="col-lg-5">
+                                        <div class="nk-block-head">
+                                            <div class="nk-block-head-content">
+                                                <h5 class="nk-block-title title">Application Info</h5>
+                                                <p>Submission date, approve date, status etc.</p>
+                                            </div>
+                                        </div><!-- .nk-block-head -->
+                                        <div class="card card-bordered">
+                                            <ul class="data-list is-compact">
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Document Type </div>
+                                                        <div class="data-value">{{user.kycObject.id_type}}</div>
+                                                    </div>
+                                                </li>
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Submitted At</div>
+                                                        <div class="data-value">{{user.kycObject.time_created|naturaltime}} </div>
+                                                    </div>
+                                                </li>
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Verified At</div>
+                                                        <div class="data-value">{{user.kycObject.time_verified|naturaltime}}</div>
+                                                    </div>
+                                                </li>
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Status</div>
+                                                        {% if user.kycObject.verified == True %}
+                                                        <div class="data-value"><span class="badge badge-dim badge-sm badge-outline-success">Verified</span></div>
+                                                        {% else %}
+                                                        <div class="data-value"><span class="badge badge-dim badge-sm badge-outline-danger">Pendind</span></div>
+                                                        {% endif %}
+                                                    </div>
+                                                </li>
+                                                
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Last Login</div>
+                                                        <div class="data-value">{{user.last_login|naturaltime}}</div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div><!-- .card -->
+                                      
+                                        
+                                    </div><!-- .col -->
+                                    <div class="col-lg-7">
+                                        <div class="nk-block-head">
+                                            <div class="nk-block-head-content">
+                                                <h5 class="nk-block-title title">Applicant Information</h5>
+                                                <p>Basic info, like name, phone, address, country etc.</p>
+                                            </div>
+                                        </div>
+                                        <div class="card card-bordered">
+                                            <ul class="data-list is-compact">
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">First Name</div>
+                                                        <div class="data-value"> {{user.first_name}} </div>
+                                                    </div>
+                                                </li>
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Last Name</div>
+                                                        <div class="data-value">{{user.last_name}}</div>
+                                                    </div>
+                                                </li>
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Email Address</div>
+                                                        <div class="data-value">{{user.user_email}}</div>
+                                                    </div>
+                                                </li>
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Phone Number</div>
+                                                        <div class="data-value text-soft"><em>  {{user.phone}} </em></div>
+                                                    </div>
+                                                </li>
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Date of Birth</div>
+                                                        <div class="data-value">{{user.dob}}</div>
+                                                    </div>
+                                                </li>
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Full Address</div>
+                                                        <div class="data-value"> {{user.addressObject.street_address}} {{user.addressObject.apartment_address}} {{user.addressObject.city}}  {{user.addressObject.state}} </div>
+                                                    </div>
+                                                </li>
+                                                
+                                                
+                                                <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Wallet Type</div>
+                                                        <div class="data-value">Naira Wallet</div>
+                                                    </div>
+                                                </li>
+                                                <!-- <li class="data-item">
+                                                    <div class="data-col">
+                                                        <div class="data-label">Nuban Account</div>
+                                                        <div class="data-value text-break">1F1tAaz5x1HUXrCNLbtMDqcw6o5GNn4xqX</div>
+                                                    </div>
+                                                </li> -->
+                                               
+                                            </ul>
+                                        </div>
+                                    </div><!-- .col -->
+                                </div><!-- .row -->
+                            </div><!-- .nk-block -->
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+
+
+
+
+
+{% endblock content %}

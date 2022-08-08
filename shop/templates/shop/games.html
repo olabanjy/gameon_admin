@@ -99,7 +99,11 @@
                                                 <span class="tb-sub">{{val.numberInStock}}</span>
                                             </div>
                                             <div class="nk-tb-col tb-col-md">
+                                                {% if val.adminOwned == True %}
                                                 <span class="tb-sub">Admin Owned</span>
+                                                {% else %}
+                                                <span class="tb-sub"> {{val.vendor}} </span>
+                                                {% endif %}
                                             </div>
                                             <div class="nk-tb-col tb-col-md">
                                                 <div class="asterisk tb-asterisk">
@@ -249,6 +253,16 @@
                                                     <label class="form-label" for="discount_price">Discount Price? </label>
                                                     <div class="form-control-wrap">
                                                         <input name="discount_price" type="number" class="form-control" id="discount_price" >
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-mb-12">
+                                                <div class="form-group">
+                                                    <label class="form-label" for="item_desc"> Item Description </label>
+                                                    <div class="form-control-wrap">
+                                                        <textarea class="form-control" name="item_desc" id="item_desc" cols="30" rows="10"></textarea>
+
                                                     </div>
                                                 </div>
                                             </div>

@@ -1,0 +1,193 @@
+{% extends 'rentals/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block content %}
+
+
+                <!-- content @s -->
+                <div class="nk-content nk-content-fluid">
+                    <div class="container-xl wide-lg">
+                        <div class="nk-content-body">
+                            <div class="nk-block-head nk-block-head-sm">
+                                <div class="nk-block-between g-3">
+                                    <div class="nk-block-head-content">
+                                        <h3 class="nk-block-title page-title">Vendors</h3>
+                                        <!-- <div class="nk-block-des text-soft">
+                                            <p>You have total <span class="text-base">1,257</span> KYC documents.</p>
+                                        </div> -->
+                                    </div>
+                                 
+                                </div>
+                            </div><!-- .nk-block-head -->
+                            <div class="nk-block">
+                                <div class="card card-bordered card-stretch">
+                                    <div class="card-inner-group">
+                                        <div class="card-inner position-relative card-tools-toggle">
+                                            <div class="card-title-group">
+                                              
+
+                                            </div><!-- .card-title-group -->
+                                            <div class="card-search search-wrap" data-search="search">
+                                                <div class="card-body">
+                                                    <div class="search-content">
+                                                        <a href="#" class="search-back btn btn-icon toggle-search" data-target="search"><em class="icon ni ni-arrow-left"></em></a>
+                                                        <input type="text" class="form-control border-transparent form-focus-none" placeholder="Search by user or email">
+                                                        <button class="search-submit btn btn-icon"><em class="icon ni ni-search"></em></button>
+                                                    </div>
+                                                </div>
+                                            </div><!-- .card-search -->
+                                        </div><!-- .card-inner -->
+                                        <div class="card-inner p-0">
+                                            <div class="nk-tb-list nk-tb-ulist">
+                                                <div class="nk-tb-item nk-tb-head">
+                                                  
+                                                    <div class="nk-tb-col"><span>Vendor </span></div>
+                                                    <div class="nk-tb-col tb-col-mb"><span>KYC Type</span></div>
+                                                    <div class="nk-tb-col tb-col-lg"><span>Shop Name</span></div>
+                                                    <div class="nk-tb-col tb-col-md"><span>Phone Number </span></div>
+                                                    <div class="nk-tb-col tb-col-md"><span>Onboarded</span></div>
+                                                    <div class="nk-tb-col tb-col-lg"><span>City</span></div>
+                                                    <div class="nk-tb-col nk-tb-col-tools">&nbsp;</div>
+                                                </div><!-- .nk-tb-item -->
+
+                                                {% if all_vendors %}
+                                                {% for val in all_vendors %}
+                                                <div class="nk-tb-item">
+                                                    
+                                                    <div class="nk-tb-col">
+                                                        <div class="user-card">
+                                                            <div class="user-avatar bg-primary">
+                                                                <span>GM</span>
+                                                            </div>
+                                                            <div class="user-info">
+                                                                <span class="tb-lead">{{val.first_name}} {{val.last_name}} <span class="dot dot-success d-md-none ml-1"></span></span>
+                                                                <span>{{val.vendor_code}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-tb-col tb-col-mb">
+                                                        {% if val.kycObject %}
+                                                            {% with val.kycObject as first_kyc %} 
+                                                            <span class="tb-lead-sub">{{first_kyc.id_type}}</span>
+                                                        {% endwith %}
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="nk-tb-col tb-col-lg">
+                                                       
+                                                        <span class="tb-lead-sub">{{val.shop_name}}</span>
+                                                   
+                                                </div>
+                                                    
+                       
+                                                    <div class="nk-tb-col tb-col-lg">
+                                                        <span class="tb-date">{{val.phone}}</span>
+                                                    </div>
+                                                    <div class="nk-tb-col tb-col-md">
+                                                        {% if val.onboarded == True %}
+                                                        <span class="tb-status text-success">Onboarded</span>
+                                                        {% elif val.onboarded == False %}
+                                                        <span class="tb-status text-danger">Pending</span>
+                                                        {% endif %}
+                                             
+                                                    </div>
+                                                    <div class="nk-tb-col tb-col-lg">
+                                                        <div class="user-card">
+                                                            
+                                                            <div class="user-name">
+                                                                <span class="tb-lead">{{val.addressObject.city}}</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="nk-tb-col nk-tb-col-tools">
+                                                        <ul class="nk-tb-actions gx-1">
+                                                            {% if val.kycObject %}
+                                                            {% with val.kycObject as first_kyc %}   
+                                                            <li class="nk-tb-action-hidden">
+                                                                <a href="#" class="btn btn-trigger btn-icon" data-toggle="modal" data-target="#user_kyc_{{first_kyc.id}}"  data-placement="top" title="Approve KYC">
+                                                                    <em class="icon ni ni-check-fill-c"></em>
+                                                                </a>
+                                                            </li>
+                                                            
+
+                                                            <div class="modal fade" role="dialog" id="user_kyc_{{first_kyc.id}}">
+                                                                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                                                    <div class="modal-content">
+                                                                        <a href="#" class="close" data-dismiss="modal"><em class="icon ni ni-cross-sm"></em></a>
+                                                                        <div class="modal-body modal-body-lg">
+                                                                            <h5 class="title">KYC</h5>
+                                                                            <ul class="nk-nav nav nav-tabs">
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link active" data-toggle="tab" href="#personal">KYC Doc </a>
+                                                                                </li>
+                                                                                
+                                                                            </ul><!-- .nav-tabs -->
+                                                                            <div class="tab-content">
+                                                                                <div class="tab-pane active" id="personal">
+                                                                                    <div class="row gy-4">
+                                                                                        <div class="col-12">
+                                                                                            <img src="{{first_kyc.photo}}" alt="">
+                                                                                           {% if first_kyc.photo_2 %}
+                                                                                           <img src="{{first_kyc.photo_2}}" alt="">
+                                                                                           {% endif %}
+                                                                                        </div>
+                                                                                        <div class="col-12">
+                                                                                            <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                                                                                <li>
+                                                                                                    <a href="{% url 'vendors:approve_kyc' first_kyc.id %}" class="btn btn-lg btn-primary">Approve KYC</a>
+                                                                                                </li>
+
+                                                                                                <li>
+                                                                                                    <a href="#" class="btn btn-lg btn-primary">Reject KYC</a>
+                                                                                                </li>
+                                                                                                
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                        
+                        
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                            <li>
+                                                                <div class="drodown">
+                                                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                        <ul class="link-list-opt no-bdr">
+                                                                            
+                                                                            <li><a href="{% url 'vendors:get_user_details' val.user_email %}"><em class="icon ni ni-check-round"></em><span>Vendor Details</span></a></li>
+                                                                          
+                                                                        </ul>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            {% endwith %}
+                                                            {% endif %}
+                                                        </ul>
+                                                    </div>
+                                                </div><!-- .nk-tb-item -->
+                                                {% endfor %}
+
+                                                {% endif %}
+                                               
+                                                
+                                             
+                                            </div>
+                                        </div><!-- .card-inner -->
+                                     
+                                    </div><!-- .card-inner-group -->
+                                </div><!-- .card -->
+                            </div><!-- .nk-block -->
+                        </div>
+                    </div>
+                </div>
+                <!-- content @e -->
+
+
+{% endblock content %}

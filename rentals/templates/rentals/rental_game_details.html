@@ -44,7 +44,7 @@
                                             <h2 class="product-title">{{the_game.name}}</h2>
                                            
                                             <div class="product-excrept text-soft">
-                                                <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus exercitationem facilis itaque ipsum pariatur, incidunt nam eius vero perferendis fugit nesciunt eveniet aperiam minima error qui distinctio amet accusantium nostrum.</p>
+                                                <p class="lead"> {{the_game.desc}} </p>
                                             </div>
                                             <div class="product-meta">
                                                 <ul class="d-flex g-3 gx-5">
@@ -53,8 +53,8 @@
                                                         <div class="fs-16px fw-bold text-secondary">{% if the_game.adminOwned %} GameOn Admin {% else %}  {{the_game.vendor}} {% endif %}</div>
                                                     </li>
                                                     <li>
-                                                        <div class="fs-14px text-muted">Platform</div>
-                                                        <div class="fs-16px fw-bold text-secondary">{{the_game.platform.name}}</div>
+                                                        <div class="fs-14px text-muted">Category</div>
+                                                        <div class="fs-16px fw-bold text-secondary">{{the_game.cat.name}}</div>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -137,6 +137,16 @@
                                                                         <input name="displayImagePath" type="file" class="custom-file-input" id="displayImagePath" > 
                                                                         <label class="custom-file-label" for="displayImagePath">Choose file</label> 
                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-lg-12">
+                                                            <div class="form-group">
+                                                                <label class="form-label" for="item_desc">Item Description</label>
+                                                                <div class="form-control-wrap">
+                                                                    <textarea class="form-control" name="item_desc" id="item_desc" cols="30" rows="10">{{the_game.desc}} </textarea>
+                     
                                                                 </div>
                                                             </div>
                                                         </div>

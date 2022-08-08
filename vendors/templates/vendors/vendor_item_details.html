@@ -1,0 +1,141 @@
+{% extends 'rentals/base.html' %}
+{% load tagger %}
+{% load humanize %}
+
+{% block content %}
+
+
+    <!-- content @s -->
+    <div class="nk-content ">
+        <div class="container">
+            <div class="nk-content-inner">
+                <div class="nk-content-body">
+                    <div class="nk-block-head nk-block-head-sm">
+                        <div class="nk-block-between g-3">
+                            <div class="nk-block-head-content">
+                                <h3 class="nk-block-title page-title">Sale Item Details</h3>
+                                <div class="nk-block-des text-soft">
+                                   
+                                </div>
+                            </div>
+                            <div class="nk-block-head-content">
+                                <a href="{% url 'vendors:vendor-items' %}" class="btn btn-outline-light bg-white d-none d-sm-inline-flex"><em class="icon ni ni-arrow-left"></em><span>Back</span></a>
+                                <a href="{% url 'vendors:vendor-items' %}" class="btn btn-icon btn-outline-light bg-white d-inline-flex d-sm-none"><em class="icon ni ni-arrow-left"></em></a>
+                            </div>
+                        </div>
+                    </div><!-- .nk-block-head -->
+                    <div class="nk-block">
+                        <div class="card card-bordered">
+                            <div class="card-inner">
+                                <div class="row pb-5">
+                                    <div class="col-lg-6">
+                                        <div class="product-gallery mr-xl-1 mr-xxl-5">
+                                            <div class="slider-init" id="sliderFor" data-slick='{"arrows": false, "fade": true, "asNavFor":"#sliderNav", "slidesToShow": 1, "slidesToScroll": 1}'>
+                                                <div class="slider-item rounded">
+                                                    <img src="{{the_game.thumbnailImagePath}}" class="rounded w-100" alt="">
+                                                </div>
+
+                                            </div>
+                                        
+                                        </div>
+                                    </div><!-- .col -->
+                                    <div class="col-lg-6">
+                                        <div class="product-info mt-5 mr-xxl-5">
+                                            <h4 class="product-price text-primary">N{{the_game.price}} </h4>
+                                            <h2 class="product-title">{{the_game.name}}</h2>
+                                           
+                                            <div class="product-excrept text-soft">
+                                                <p class="lead"> {{the_game.desc}} </p>
+                                            </div>
+                                            <div class="product-meta">
+                                                <ul class="d-flex g-3 gx-5">
+                                                    <li>
+                                                        <div class="fs-14px text-muted">Vendor</div>
+                                                        <div class="fs-16px fw-bold text-secondary"> {{the_game.vendor.first_name}} {{the_game.vendor.last_name}} </div>
+                                                    </li>
+                                                    <li>
+                                                        <div class="fs-14px text-muted">Platform</div>
+                                                        <div class="fs-16px fw-bold text-secondary">{{the_game.cat}}</div>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="product-meta">
+                                                <h6 class="title">Date Added</h6>
+                                                <p class="lead"> {{the_game.created_at|naturaltime}} </p>
+                                                
+                                            </div>
+
+                                          
+                                        </div><!-- .product-info -->
+                                    </div><!-- .col -->
+                                </div><!-- .row -->
+                                <hr class="hr border-light">
+                                <div class="row g-gs flex-lg-row-reverse pt-5">
+
+                                    
+
+                                        <div class="card col-md-6">
+                                            <div class="card-inner">
+                                                <div class="card-head">
+                                                    <h5 class="card-title"> Banner </h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <img src="{{the_game.bannerImagePath}}" alt="">
+                                                </div>
+                                                
+                                            </div>
+                                        </div> 
+                                        
+
+                                        <div class="card col-md-6">
+                                            <div class="card-inner">
+                                                <div class="card-head">
+                                                    <h5 class="card-title"> Display Image </h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <img src="{{the_game.displayImagePath}}" alt="">
+                                                </div>
+                                                
+                                            </div>
+                                        </div>
+                                        {% if the_game.admin_approved == False %}
+                                        <div class="col-md-6">
+                                          
+                                                <a  href="{% url 'vendors:approve-item' the_game.id %}" style="color: white !important ;" class="btn btn-lg btn-primary">Approve Item</a>
+                                        
+                                        </div>
+                                        
+
+                                        <div class="col-md-6">
+    
+                                            <a href="{% url 'vendors:reject-item' the_game.id %}" style="color: white !important ;"  class="btn btn-lg btn-danger">Reject Item</a>
+                                    
+                                    </div>
+                                    {% else %}
+
+                                    <div class="col-md-6">
+    
+                                        <a href="{% url 'vendors:reject-item' the_game.id %}" style="color: white !important ;"  class="btn btn-lg btn-danger">Remove Item</a>
+                                
+                                     </div>
+
+                                    {% endif %}
+                                    
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- .nk-block -->
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content @e -->
+
+
+{% endblock content %}
