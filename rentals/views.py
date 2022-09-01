@@ -60,79 +60,83 @@ class Games(View):
         return render(self.request, template, context)
 
     def post(self, request, *args, **kwargs):
-        game_name = request.POST.get("game_name")
-        displayImagePath = request.FILES["displayImagePath"]
-        thumbnailImagePath = request.FILES["thumbnailImagePath"]
-        bannerImagePath = request.FILES["bannerImagePath"]
-        categoryId = request.POST.get("categoryId")
-        numberInStock = request.POST.get("numberInStock")
-        dailyRentalRate = request.POST.get("dailyRentalRate")
-        dailyRentalRate = request.POST.get("dailyRentalRate")
-        featured = request.POST.get("featured")
-        desc = request.POST.get("item_desc")
+        try:
+            game_name = request.POST.get("game_name")
+            displayImagePath = request.FILES["displayImagePath"]
+            thumbnailImagePath = request.FILES["thumbnailImagePath"]
+            bannerImagePath = request.FILES["bannerImagePath"]
+            categoryId = request.POST.get("categoryId")
+            numberInStock = request.POST.get("numberInStock")
+            dailyRentalRate = request.POST.get("dailyRentalRate")
+            dailyRentalRate = request.POST.get("dailyRentalRate")
+            featured = request.POST.get("featured")
+            desc = request.POST.get("item_desc")
 
-        catId = []
-        for id in request.POST.getlist("categoryId"):
-            catId.append(id)
+            catId = []
+            for id in request.POST.getlist("categoryId"):
+                catId.append(id)
 
-        if desc:
-            response_body.update({"desc": desc})
+            if desc:
+                response_body.update({"desc": desc})
 
-        response_body = {
-            "name": game_name,
-            "catId": catId,
-            "numberInStock": numberInStock,
-            "dailyRentalRate": dailyRentalRate,
-            "featuredinput": featured,
-        }
-
-        response_files = [
-            ("displayImagePath", displayImagePath.file),
-            ("thumbnailImagePath", thumbnailImagePath.file),
-            ("bannerImagePath", bannerImagePath.file),
-        ]
-        print(response_files)
-
-        test_url = "http://httpbin.org/post"
-
-        multipart_data = MultipartEncoder(
-            fields={
-                "displayImagePath": (
-                    displayImagePath.name,
-                    displayImagePath.file,
-                    "image/jpeg",
-                ),
-                "thumbnailImagePath": (
-                    thumbnailImagePath.name,
-                    thumbnailImagePath.file,
-                    "image/jpeg",
-                ),
-                "bannerImagePath": (
-                    bannerImagePath.name,
-                    bannerImagePath.file,
-                    "image/jpeg",
-                ),
-                # plain text fields
+            response_body = {
                 "name": game_name,
                 "catId": catId,
                 "numberInStock": numberInStock,
                 "dailyRentalRate": dailyRentalRate,
-                "featured": featured,
+                "featuredinput": featured,
             }
-        )
 
-        response = requests.post(
-            f"{games_base_url}admin_create_item/",
-            data=multipart_data,
-            headers={"Content-Type": multipart_data.content_type},
-        )
-        if response.status_code == 200:
-            print("Platform added")
-            print(response.text)
-            return redirect("rentals:games")
-        else:
-            print(response.text)
-            print("Error Adding platform")
+            # response_files = [
+            #     ("displayImagePath", displayImagePath.file),
+            #     ("thumbnailImagePath", thumbnailImagePath.file),
+            #     ("bannerImagePath", bannerImagePath.file),
+            # ]
+            # print(response_files)
+
+            # test_url = "http://httpbin.org/post"
+
+            multipart_data = MultipartEncoder(
+                fields={
+                    "displayImagePath": (
+                        displayImagePath.name,
+                        displayImagePath.file,
+                        "image/jpeg",
+                    ),
+                    "thumbnailImagePath": (
+                        thumbnailImagePath.name,
+                        thumbnailImagePath.file,
+                        "image/jpeg",
+                    ),
+                    "bannerImagePath": (
+                        bannerImagePath.name,
+                        bannerImagePath.file,
+                        "image/jpeg",
+                    ),
+                    # plain text fields
+                    "name": game_name,
+                    "catId": json.dumps(catId),
+                    "numberInStock": numberInStock,
+                    "dailyRentalRate": dailyRentalRate,
+                    "featured": featured,
+                }
+            )
+
+            response = requests.post(
+                f"{games_base_url}admin_create_item/",
+                data=multipart_data,
+                headers={"Content-Type": multipart_data.content_type},
+            )
+            if response.status_code == 200:
+                print("Platform added")
+                print(response.text)
+                return redirect("rentals:games")
+            else:
+                print(response.text)
+                print("Error Adding platform")
+                return redirect("rentals:games")
+        except Exception as e:
+            print("error", e)
             return redirect("rentals:games")
 
 
@@ -153,59 +157,66 @@ class GameDetail(View):
 
     def post(self, request, item_id, *args, **kwargs):
 
-        the_item_id = request.POST.get("item_id")
-        item_name = request.POST.get("item_name")
-        numberInStock = request.POST.get("numberInStock")
-        dailyRentalRate = request.POST.get("dailyRentalRate")
-        featured = request.POST.get("featured")
-        desc = request.POST.get("item_desc")
+        try:
 
-        response_files = []
-        response_body = {"id": the_item_id}
+            the_item_id = request.POST.get("item_id")
+            item_name = request.POST.get("item_name")
+            numberInStock = request.POST.get("numberInStock")
+            dailyRentalRate = request.POST.get("dailyRentalRate")
+            featured = request.POST.get("featured")
+            desc = request.POST.get("item_desc")
 
-        if item_name:
-            response_body.update({"name": item_name})
-        if numberInStock:
-            response_body.update({"numberInStock": numberInStock})
-        if dailyRentalRate:
-            response_body.update({"dailyRentalRate": dailyRentalRate})
-        if featured:
-            response_body.update({"featured": featured})
-        if desc:
-            response_body.update({"desc": desc})
+            response_files = []
+            response_body = {"id": the_item_id}
 
-        if "displayImagePath" in request.FILES:
-            response_files.append(
-                ("displayImagePath", request.FILES["displayImagePath"].file)
-            )
-        if "thumbnailImagePath" in request.FILES:
-            response_files.append(
-                ("thumbnailImagePath", request.FILES["thumbnailImagePath"].file)
-            )
-        if "bannerImagePath" in request.FILES:
-            response_files.append(
-                ("bannerImagePath", request.FILES["bannerImagePath"].file)
-            )
+            if item_name:
+                response_body.update({"name": item_name})
+            if numberInStock:
+                response_body.update({"numberInStock": numberInStock})
+            if dailyRentalRate:
+                response_body.update({"dailyRentalRate": dailyRentalRate})
+            if featured:
+                response_body.update({"featured": featured})
+            if desc:
+                response_body.update({"desc": desc})
 
-        print(response_files)
-        print(response_body)
+            if "displayImagePath" in request.FILES:
+                response_files.append(
+                    ("displayImagePath", request.FILES["displayImagePath"].file)
+                )
+            if "thumbnailImagePath" in request.FILES:
+                response_files.append(
+                    ("thumbnailImagePath", request.FILES["thumbnailImagePath"].file)
+                )
+            if "bannerImagePath" in request.FILES:
+                response_files.append(
+                    ("bannerImagePath", request.FILES["bannerImagePath"].file)
+                )
 
-        response = requests.post(
-            f"{games_base_url}update_rental_game/",
-            data=response_body,
-            files=response_files,
-        )
+            print(response_files)
+            print(response_body)
 
-        if response.status_code == 200:
-            print("Game Edited")
-            print(response.text)
-            return redirect(
-                reverse("rentals:game-details", kwargs={"item_id": item_id})
+            response = requests.post(
+                f"{games_base_url}update_rental_game/",
+                data=response_body,
+                files=response_files,
             )
 
-        else:
-            print(response.text)
-            print("Error Editing Game")
+            if response.status_code == 200:
+                print("Game Edited")
+                print(response.text)
+                return redirect(
+                    reverse("rentals:game-details", kwargs={"item_id": item_id})
+                )
+
+            else:
+                print(response.text)
+                print("Error Editing Game")
+                return redirect(
+                    reverse("rentals:game-details", kwargs={"item_id": item_id})
+                )
+        except Exception as e:
+            print("error", e)
             return redirect(
                 reverse("rentals:game-details", kwargs={"item_id": item_id})
             )

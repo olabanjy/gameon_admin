@@ -52,76 +52,82 @@ class Items(View):
         return render(self.request, template, context)
 
     def post(self, request, *args, **kwargs):
-        game_name = request.POST.get("game_name")
-        displayImagePath = request.FILES["displayImagePath"]
-        thumbnailImagePath = request.FILES["thumbnailImagePath"]
-        bannerImagePath = request.FILES["bannerImagePath"]
-        # platformId = request.POST.get("platformId")
-        numberInStock = request.POST.get("numberInStock")
-        price = request.POST.get("price")
-        discount_price = request.POST.get("discount_price")
-        featured = request.POST.get("featured")
-        desc = request.POST.get("item_desc")
+        try:
+            game_name = request.POST.get("game_name")
+            displayImagePath = request.FILES["displayImagePath"]
+            thumbnailImagePath = request.FILES["thumbnailImagePath"]
+            bannerImagePath = request.FILES["bannerImagePath"]
+            # platformId = request.POST.get("platformId")
+            numberInStock = request.POST.get("numberInStock")
+            price = request.POST.get("price")
+            discount_price = request.POST.get("discount_price")
+            featured = request.POST.get("featured")
+            desc = request.POST.get("item_desc")
 
-        catId = []
-        for id in request.POST.getlist("categoryId"):
-            catId.append(id)
+            catId = []
+            for id in request.POST.getlist("categoryId"):
+                catId.append(id)
 
-        response_body = {
-            "name": game_name,
-            "catId": catId,
-            "numberInStock": numberInStock,
-            "price": price,
-            "featuredinput": featured,
-        }
-        if discount_price:
-            response_body.update({"discount_price": discount_price})
-
-        if desc:
-            response_body.update({"desc": desc})
-
-        response_files = [
-            ("displayImagePath", displayImagePath.file),
-            ("thumbnailImagePath", thumbnailImagePath.file),
-            ("bannerImagePath", bannerImagePath.file),
-        ]
-
-        test_url = "http://httpbin.org/post"
-
-        multipart_data = MultipartEncoder(
-            fields={
-                "displayImagePath": (
-                    displayImagePath.name,
-                    displayImagePath.file,
-                    "image/jpeg",
-                ),
-                "thumbnailImagePath": (
-                    thumbnailImagePath.name,
-                    thumbnailImagePath.file,
-                    "image/jpeg",
-                ),
-                "bannerImagePath": (
-                    bannerImagePath.name,
-                    bannerImagePath.file,
-                    "image/jpeg",
-                ),
-                # plain text fields
+            response_body = {
                 "name": game_name,
                 "catId": catId,
                 "numberInStock": numberInStock,
                 "price": price,
-                "featured": featured,
+                "featuredinput": featured,
             }
-        )
+            if discount_price:
+                response_body.update({"discount_price": discount_price})
 
-        response = requests.post(
-            f"{items_base_url}admin_create_item/",
-            data=multipart_data,
-            headers={"Content-Type": multipart_data.content_type},
-        )
-        if response.status_code == 200:
-            return redirect("shop:games")
-        else:
+            if desc:
+                response_body.update({"desc": desc})
+
+            # response_files = [
+            #     ("displayImagePath", displayImagePath.file),
+            #     ("thumbnailImagePath", thumbnailImagePath.file),
+            #     ("bannerImagePath", bannerImagePath.file),
+            # ]
+
+            # test_url = "http://httpbin.org/post"
+
+            multipart_data = MultipartEncoder(
+                fields={
+                    "displayImagePath": (
+                        displayImagePath.name,
+                        displayImagePath.file,
+                        "image/jpeg",
+                    ),
+                    "thumbnailImagePath": (
+                        thumbnailImagePath.name,
+                        thumbnailImagePath.file,
+                        "image/jpeg",
+                    ),
+                    "bannerImagePath": (
+                        bannerImagePath.name,
+                        bannerImagePath.file,
+                        "image/jpeg",
+                    ),
+                    # plain text fields
+                    "name": game_name,
+                    "catId": json.dumps(catId),
+                    "numberInStock": numberInStock,
+                    "price": price,
+                    "featured": featured,
+                    "desc": desc,
+                }
+            )
+
+            response = requests.post(
+                f"{items_base_url}admin_create_item/",
+                data=multipart_data,
+                headers={"Content-Type": multipart_data.content_type},
+            )
+
+            if response.status_code == 200:
+                return redirect("shop:games")
+            else:
+                return redirect("shop:games")
+        except Exception as e:
+            print(e)
             return redirect("shop:games")
 
 
@@ -141,67 +147,75 @@ class ItemDetail(View):
         return render(self.request, template, context)
 
     def post(self, request, item_id, *args, **kwargs):
+        try:
 
-        # displayImagePath = request.FILES["displayImagePath"]
-        # thumbnailImagePath = request.FILES["thumbnailImagePath"]
-        # bannerImagePath = request.FILES["bannerImagePath"]
+            # displayImagePath = request.FILES["displayImagePath"]
+            # thumbnailImagePath = request.FILES["thumbnailImagePath"]
+            # bannerImagePath = request.FILES["bannerImagePath"]
 
-        the_item_id = request.POST.get("item_id")
-        item_name = request.POST.get("item_name")
-        numberInStock = request.POST.get("numberInStock")
-        price = request.POST.get("price")
-        discount_price = request.POST.get("discount_price")
-        featured = request.POST.get("featured")
-        desc = request.POST.get("item_desc")
+            the_item_id = request.POST.get("item_id")
+            item_name = request.POST.get("item_name")
+            numberInStock = request.POST.get("numberInStock")
+            price = request.POST.get("price")
+            discount_price = request.POST.get("discount_price")
+            featured = request.POST.get("featured")
+            desc = request.POST.get("item_desc")
 
-        response_files = []
-        response_body = {"id": the_item_id}
+            response_files = []
+            response_body = {"id": the_item_id}
 
-        if item_name:
-            response_body.update({"name": item_name})
-        if numberInStock:
-            response_body.update({"numberInStock": numberInStock})
-        if price:
-            response_body.update({"price": price})
+            if item_name:
+                response_body.update({"name": item_name})
+            if numberInStock:
+                response_body.update({"numberInStock": numberInStock})
+            if price:
+                response_body.update({"price": price})
 
-        if discount_price:
-            response_body.update({"discount_price": discount_price})
-        if featured:
-            response_body.update({"featured": featured})
+            if discount_price:
+                response_body.update({"discount_price": discount_price})
+            if featured:
+                response_body.update({"featured": featured})
 
-        if desc:
-            response_body.update({"desc": desc})
+            if desc:
+                response_body.update({"desc": desc})
 
-        if "displayImagePath" in request.FILES:
-            response_files.append(
-                ("displayImagePath", request.FILES["displayImagePath"].file)
+            if "displayImagePath" in request.FILES:
+                response_files.append(
+                    ("displayImagePath", request.FILES["displayImagePath"].file)
+                )
+            if "thumbnailImagePath" in request.FILES:
+                response_files.append(
+                    ("thumbnailImagePath", request.FILES["thumbnailImagePath"].file)
+                )
+            if "bannerImagePath" in request.FILES:
+                response_files.append(
+                    ("bannerImagePath", request.FILES["bannerImagePath"].file)
+                )
+
+            print(response_files)
+            print(response_body)
+
+            response = requests.post(
+                f"{items_base_url}update_shop_item/",
+                data=response_body,
+                files=response_files,
             )
-        if "thumbnailImagePath" in request.FILES:
-            response_files.append(
-                ("thumbnailImagePath", request.FILES["thumbnailImagePath"].file)
-            )
-        if "bannerImagePath" in request.FILES:
-            response_files.append(
-                ("bannerImagePath", request.FILES["bannerImagePath"].file)
-            )
 
-        print(response_files)
-        print(response_body)
+            if response.status_code == 200:
+                print("Item Edited")
+                print(response.text)
+                return redirect(
+                    reverse("shop:item-details", kwargs={"item_id": item_id})
+                )
 
-        response = requests.post(
-            f"{items_base_url}update_shop_item/",
-            data=response_body,
-            files=response_files,
-        )
-
-        if response.status_code == 200:
-            print("Item Edited")
-            print(response.text)
-            return redirect(reverse("shop:item-details", kwargs={"item_id": item_id}))
-
-        else:
-            print(response.text)
-            print("Error Editing Game")
+            else:
+                print(response.text)
+                print("Error Editing Game")
+                return redirect(
+                    reverse("shop:item-details", kwargs={"item_id": item_id})
+                )
+        except Exception as e:
+            print("error", e)
             return redirect(reverse("shop:item-details", kwargs={"item_id": item_id}))
 
 
