@@ -68,26 +68,20 @@ class Items(View):
             for id in request.POST.getlist("categoryId"):
                 catId.append(id)
 
-            response_body = {
-                "name": game_name,
-                "catId": catId,
-                "numberInStock": numberInStock,
-                "price": price,
-                "featuredinput": featured,
-            }
-            if discount_price:
-                response_body.update({"discount_price": discount_price})
+            catIDs = json.dumps(catId)
 
-            if desc:
-                response_body.update({"desc": desc})
+            # response_body = {
+            #     "name": game_name,
+            #     "catId": catId,
+            #     "numberInStock": numberInStock,
+            #     "price": price,
+            #     "featuredinput": featured,
+            # }
+            # if discount_price:
+            #     response_body.update({"discount_price": discount_price})
 
-            # response_files = [
-            #     ("displayImagePath", displayImagePath.file),
-            #     ("thumbnailImagePath", thumbnailImagePath.file),
-            #     ("bannerImagePath", bannerImagePath.file),
-            # ]
-
-            # test_url = "http://httpbin.org/post"
+            # if desc:
+            #     response_body.update({"desc": desc})
 
             multipart_data = MultipartEncoder(
                 fields={
@@ -106,15 +100,15 @@ class Items(View):
                         bannerImagePath.file,
                         "image/jpeg",
                     ),
-                    # plain text fields
                     "name": game_name,
-                    "catId": json.dumps(catId),
+                    "catId": catIDs,
                     "numberInStock": numberInStock,
                     "price": price,
                     "featured": featured,
                     "desc": desc,
                 }
             )
+            print(multipart_data)
 
             response = requests.post(
                 f"{items_base_url}admin_create_item/",

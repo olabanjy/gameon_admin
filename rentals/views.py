@@ -76,25 +76,18 @@ class Games(View):
             for id in request.POST.getlist("categoryId"):
                 catId.append(id)
 
-            if desc:
-                response_body.update({"desc": desc})
+            catIDs = json.dumps(catId)
 
-            response_body = {
-                "name": game_name,
-                "catId": catId,
-                "numberInStock": numberInStock,
-                "dailyRentalRate": dailyRentalRate,
-                "featuredinput": featured,
-            }
+            # response_body = {
+            #     "name": game_name,
+            #     "catId": catId,
+            #     "numberInStock": numberInStock,
+            #     "dailyRentalRate": dailyRentalRate,
+            #     "featuredinput": featured,
+            # }
 
-            # response_files = [
-            #     ("displayImagePath", displayImagePath.file),
-            #     ("thumbnailImagePath", thumbnailImagePath.file),
-            #     ("bannerImagePath", bannerImagePath.file),
-            # ]
-            # print(response_files)
-
-            # test_url = "http://httpbin.org/post"
+            # if desc:
+            #     response_body.update({"desc": desc})
 
             multipart_data = MultipartEncoder(
                 fields={
@@ -115,7 +108,7 @@ class Games(View):
                     ),
                     # plain text fields
                     "name": game_name,
-                    "catId": json.dumps(catId),
+                    "catId": catIDs,
                     "numberInStock": numberInStock,
                     "dailyRentalRate": dailyRentalRate,
                     "featured": featured,
