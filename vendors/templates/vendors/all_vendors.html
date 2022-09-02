@@ -133,6 +133,16 @@
                                                                                            {% endif %}
                                                                                         </div>
                                                                                         <div class="col-12">
+                                                                                            {% if val.onboarded == True %}
+                                                                                            <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
+                                                                                               
+                                                                                                <li>
+                                                                                                    <a href="#" class="btn btn-lg btn-primary">Vendor Onboarded</a>
+                                                                                                </li>
+                                                                                                
+                                                                                            </ul>
+                                                                                            {% else %}
+
                                                                                             <ul class="align-center flex-wrap flex-sm-nowrap gx-4 gy-2">
                                                                                                 <li>
                                                                                                     <a href="{% url 'vendors:approve_kyc' first_kyc.id %}" class="btn btn-lg btn-primary">Approve KYC</a>
@@ -143,6 +153,8 @@
                                                                                                 </li>
                                                                                                 
                                                                                             </ul>
+
+                                                                                            {% endif %}
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>

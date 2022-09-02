@@ -124,7 +124,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CLIENT_BASE_URL = "https://gameon.com.ng/api/v1/"
-# CLIENT_BASE_URL = "http://127.0.0.1:8000/api/v1/"
+# CLIENT_BASE_URL = "http://127.0.0.1:8001/api/v1/"
 
 
 # VENDOR_BASE_URL = "http://127.0.0.1:8002/"
@@ -160,5 +160,11 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    }
+}
 
 SITE_ID = 1

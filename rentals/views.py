@@ -25,6 +25,7 @@ import requests
 import time
 import json
 from .models import *
+from datetime import datetime
 
 
 games_base_url = f"{settings.CLIENT_BASE_URL}rental/items/"
@@ -44,9 +45,13 @@ def overview(request):
 class Games(View):
     def get(self, request, *args, **kwargs):
 
-        cats = requests.get(f"{cat_base_url}?timestamp={time.time()}")
+        curr_date = datetime.now()
 
-        games = requests.get(f"{games_base_url}")
+        cats = requests.get(f"{cat_base_url}?timestamp={curr_date}")
+
+        # cats = requests.get(f"{cat_base_url}?timestamp={time.time()}")
+
+        games = requests.get(f"{games_base_url}get_list/?timestamp={curr_date}")
         print(games.json())
 
         template = "rentals/games.html"
@@ -250,7 +255,10 @@ class Platforms(View):
 @login_required
 def rental_orders(request):
     template = "rentals/rental_orders.html"
-    que = requests.get(f"{settings.CLIENT_BASE_URL}rental/que/?timestamp={time.time()}")
+    curr_date = datetime.now()
+    que = requests.get(
+        f"{settings.CLIENT_BASE_URL}rental/que/get_list/?timestamp={curr_date}"
+    )
     context = {"ques": que.json()}
     return render(request, template, context)
 

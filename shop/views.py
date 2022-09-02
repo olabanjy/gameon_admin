@@ -1,3 +1,4 @@
+from datetime import datetime
 from django import template
 from django.contrib import messages
 from django.conf import settings
@@ -36,9 +37,13 @@ class Items(View):
 
         # platforms = requests.get(f"{platform_base_url}?timestamp={time.time()}")
 
-        cats = requests.get(f"{cat_base_url}?timestamp={time.time()}")
+        curr_date = datetime.now()
 
-        items = requests.get(f"{items_base_url}?timestamp={time.time()}")
+        cats = requests.get(f"{cat_base_url}?timestamp={curr_date}")
+
+        items = requests.get(f"{items_base_url}get_list?timestamp={curr_date}")
+        for val in items.json():
+            print(val["name"])
 
         template = "shop/games.html"
 
@@ -143,10 +148,6 @@ class ItemDetail(View):
     def post(self, request, item_id, *args, **kwargs):
         try:
 
-            # displayImagePath = request.FILES["displayImagePath"]
-            # thumbnailImagePath = request.FILES["thumbnailImagePath"]
-            # bannerImagePath = request.FILES["bannerImagePath"]
-
             the_item_id = request.POST.get("item_id")
             item_name = request.POST.get("item_name")
             numberInStock = request.POST.get("numberInStock")
@@ -248,8 +249,9 @@ class Platforms(View):
 @login_required
 def shop_orders(request):
     template = "shop/shop_orders.html"
+    curr_date = datetime.now()
     orders = requests.get(
-        f"{settings.CLIENT_BASE_URL}shop/item/order/?timestamp={time.time()}"
+        f"{settings.CLIENT_BASE_URL}shop/item/order/get_list/?timestamp={curr_date}"
     )
     context = {"orders": orders.json()}
     return render(request, template, context)

@@ -24,6 +24,7 @@ import requests
 import time
 import json
 from .models import *
+from datetime import datetime
 
 
 vendor_base_url = f"{settings.VENDOR_BASE_URL}api/v1/vendors"
@@ -68,10 +69,11 @@ def approve_kyc(request, kyc_id):
 
 class Items(View):
     def get(self, request, *args, **kwargs):
+        curr_date = datetime.now()
 
         items_base_url = f"{settings.VENDOR_BASE_URL}api/v1/shop/items/"
 
-        items = requests.get(f"{items_base_url}?timestamp={time.time()}")
+        items = requests.get(f"{items_base_url}get_list/?timestamp={curr_date}")
         print(items.json())
 
         template = "vendors/vendor_items.html"
@@ -186,10 +188,11 @@ def reject_item(request, item_id):
 class RentalGame(View):
     def get(self, request, *args, **kwargs):
 
+        curr_date = datetime.now()
+
         items_base_url = f"{settings.VENDOR_BASE_URL}api/v1/rental/items/"
 
-        items = requests.get(f"{items_base_url}?timestamp={time.time()}")
-        # print(items.json())
+        items = requests.get(f"{items_base_url}get_list/?timestamp={curr_date}")
 
         template = "vendors/rental_vendor_items.html"
 
