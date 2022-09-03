@@ -284,6 +284,49 @@
 {% endblock content %}
 
 {% block extra_scripts %}
+
+<script type="text/javascript">
+    // thumbnail
+    $('#thumbnailImagePath').on('change', function() {
+            const fileSize = this.files[0].size / 1024 / 1024
+            console.log(fileSize)
+            if (fileSize > 4.9){
+                console.log('This file size is: ' + fileSize + "MiB");
+                this.value = null;
+                alert(`Image file size must be less than 5mb`);
+                
+            }        
+    });
+
+
+    // banner 
+    $('#bannerImagePath').on('change', function() {
+            const fileSize = this.files[0].size / 1024 / 1024
+            console.log(fileSize)
+            if (fileSize > 4.9){
+                console.log('This file size is: ' + fileSize + "MiB");
+                this.value = null;
+                alert(`Image file size must be less than 5mb`);
+                
+            }        
+    });
+
+    // displayImagePath
+    $('#displayImagePath').on('change', function() {
+            const fileSize = this.files[0].size / 1024 / 1024
+            console.log(fileSize)
+            if (fileSize > 4.9){
+                console.log('This file size is: ' + fileSize + "MiB");
+                this.value = null;
+                alert(`Image file size must be less than 5mb`);
+                
+            }        
+    });
+
+
+    
+</script>
+
 <script type="text/javascript">
 
   function removeSelected(){
