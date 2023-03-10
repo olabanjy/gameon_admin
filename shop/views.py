@@ -69,11 +69,11 @@ class Items(View):
             featured = request.POST.get("featured")
             desc = request.POST.get("item_desc")
 
-            catId = []
-            for id in request.POST.getlist("categoryId"):
-                catId.append(id)
+            catId = request.POST.get("categoryId")
+            # for id in request.POST.getlist("categoryId"):
+            #     catId.append(id)
 
-            catIDs = json.dumps(catId)
+            # catIDs = json.dumps(catId)
 
             # response_body = {
             #     "name": game_name,
@@ -106,7 +106,7 @@ class Items(View):
                         "image/jpeg",
                     ),
                     "name": game_name,
-                    "catId": catIDs,
+                    "catId": catId,
                     "numberInStock": numberInStock,
                     "price": price,
                     "featured": featured,
@@ -126,7 +126,7 @@ class Items(View):
             else:
                 return redirect("shop:games")
         except Exception as e:
-            print(e)
+            print("error is", e)
             return redirect("shop:games")
 
 

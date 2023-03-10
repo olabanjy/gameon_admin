@@ -73,15 +73,15 @@ class Games(View):
             categoryId = request.POST.get("categoryId")
             numberInStock = request.POST.get("numberInStock")
             dailyRentalRate = request.POST.get("dailyRentalRate")
-            dailyRentalRate = request.POST.get("dailyRentalRate")
+            # dailyRentalRate = request.POST.get("dailyRentalRate")
             featured = request.POST.get("featured")
             desc = request.POST.get("item_desc")
 
-            catId = []
-            for id in request.POST.getlist("categoryId"):
-                catId.append(id)
+            catId = request.POST.get("categoryId")
+            # for id in request.POST.getlist("categoryId"):
+            #     catId.append(id)
 
-            catIDs = json.dumps(catId)
+            # catIDs = json.dumps(catId)
 
             # response_body = {
             #     "name": game_name,
@@ -113,7 +113,7 @@ class Games(View):
                     ),
                     # plain text fields
                     "name": game_name,
-                    "catId": catIDs,
+                    "catId": catId,
                     "numberInStock": numberInStock,
                     "dailyRentalRate": dailyRentalRate,
                     "featured": featured,
