@@ -27,7 +27,7 @@
                                                                 <input type="text" class="form-control" id="default-04" placeholder="Quick search by id">
                                                             </div>
                                                         </li>
-                                                       
+
                                                         <li class="nk-block-tools-opt">
                                                             <a href="#" data-target="addProduct" class="toggle btn btn-icon btn-primary d-md-none"><em class="icon ni ni-plus"></em></a>
                                                             <a href="#" data-target="addProduct" class="toggle btn btn-primary d-none d-md-inline-flex"><em class="icon ni ni-plus"></em><span>Add New Rental Game </span></a>
@@ -43,10 +43,10 @@
                                         <div class="nk-tb-item nk-tb-head">
                                             <div class="nk-tb-col nk-tb-col-check">
                                                 <div class="custom-control custom-control-sm custom-checkbox notext">
-                                                    
+
                                                 </div>
                                             </div>
-                                           
+
                                             <div class="nk-tb-col tb-col-sm"><span>Name</span></div>
                                             <!-- <div class="nk-tb-col"><span>Cat</span></div> -->
                                             <div class="nk-tb-col"><span>Daily Rental Rate</span></div>
@@ -83,7 +83,7 @@
                                                     <label class="custom-control-label" for="{{val.id}}"></label>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="nk-tb-col tb-col-sm">
                                                 <span class="tb-product">
                                                     <img src="{{val.thumbnailImagePath}}" alt="" class="thumb">
@@ -135,7 +135,7 @@
                                         {% endif %}
 
                                     </div><!-- .nk-tb-list -->
-                                   
+
                                 </div><!-- .nk-block -->
 
 
@@ -165,24 +165,24 @@
                                                     <label class="form-label" for="displayImagePath"> Display Image Path </label>
                                                     <div class="form-control-wrap">
                                                         <div class="custom-file">
-                                                            <input name="displayImagePath" type="file" class="custom-file-input" id="displayImagePath" required> 
-                                                            <label class="custom-file-label" for="displayImagePath">Choose file</label> 
+                                                            <input name="displayImagePath" type="file" class="custom-file-input" id="displayImagePath" required>
+                                                            <label class="custom-file-label" for="displayImagePath">Choose file</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            
+
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="thumbnailImagePath"> Thumbnail Image Path </label>
                                                     <div class="form-control-wrap">
                                                         <div class="custom-file">
-                                                            <input name="thumbnailImagePath" type="file" class="custom-file-input" id="thumbnailImagePath" required> 
-                                                            <label class="custom-file-label" for="thumbnailImagePath">Choose file</label> 
+                                                            <input name="thumbnailImagePath" type="file" class="custom-file-input" id="thumbnailImagePath" required>
+                                                            <label class="custom-file-label" for="thumbnailImagePath">Choose file</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            
+
                                             </div>
 
                                             <div class="col-12">
@@ -190,22 +190,22 @@
                                                     <label class="form-label" for="bannerImagePath"> Banner Image Path </label>
                                                     <div class="form-control-wrap">
                                                         <div class="custom-file">
-                                                            <input name="bannerImagePath" type="file" class="custom-file-input" id="bannerImagePath" required> 
-                                                            <label class="custom-file-label" for="bannerImagePath">Choose file</label> 
+                                                            <input name="bannerImagePath" type="file" class="custom-file-input" id="bannerImagePath" required>
+                                                            <label class="custom-file-label" for="bannerImagePath">Choose file</label>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            
+
                                             </div>
 
-                                           
+
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label class="form-label" for="categoryId">Categories</label>
                                                     <div class="form-control-wrap ">
                                                         <div class="form-control-select">
                                                             {% if cats %}
-                                                            <select name="categoryId" class="form-select" multiple="multiple" id="categoryId" required>
+                                                            <select name="categoryId" class="form-control"  id="categoryId" required>
                                                                 {% for val in cats %}
                                                                 <option value="{{val.id}}"> {{val.name}}  </option>
                                                                 {% endfor %}
@@ -216,7 +216,7 @@
                                                 </div>
                                             </div>
 
-                                            
+
                                             <div class="col-mb-6">
                                                 <div class="form-group">
                                                     <label class="form-label" for="numberInStock">Number In Stock</label>
@@ -239,14 +239,14 @@
                                                     <label class="form-label" for="featured">To be featured ?</label>
                                                     <div class="form-control-wrap ">
                                                         <div class="form-control-select">
-                                                            
+
                                                             <select name="featured" class="form-control" id="featured" required>
-                                                             
+
                                                                 <option value="false"> False  </option>
                                                                 <option value="true"> True  </option>
-                                                       
+
                                                             </select>
-                                                          
+
                                                         </div>
                                                     </div>
                                                 </div>
@@ -261,8 +261,8 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                          
-                                        
+
+
                                             <div class="col-12">
                                                 <button type="submit" class="btn btn-primary"><em class="icon ni ni-plus"></em><span>Add New</span></button>
                                             </div>
@@ -294,12 +294,12 @@
                 console.log('This file size is: ' + fileSize + "MiB");
                 this.value = null;
                 alert(`Image file size must be less than 5mb`);
-                
-            }        
+
+            }
     });
 
 
-    // banner 
+    // banner
     $('#bannerImagePath').on('change', function() {
             const fileSize = this.files[0].size / 1024 / 1024
             console.log(fileSize)
@@ -307,8 +307,8 @@
                 console.log('This file size is: ' + fileSize + "MiB");
                 this.value = null;
                 alert(`Image file size must be less than 5mb`);
-                
-            }        
+
+            }
     });
 
     // displayImagePath
@@ -319,12 +319,12 @@
                 console.log('This file size is: ' + fileSize + "MiB");
                 this.value = null;
                 alert(`Image file size must be less than 5mb`);
-                
-            }        
+
+            }
     });
 
 
-    
+
 </script>
 
 <script type="text/javascript">
