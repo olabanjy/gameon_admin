@@ -121,6 +121,8 @@ def approve_item(request, item_id):
             "numberInStock": the_item["numberInStock"],
             "price": the_item["price"],
             "vendor_code": the_item["vendor"]["vendor_code"],
+            # "vendor_long": the_item["vendor"]["addressObject"]["long"],
+            # "vendor_lat": the_item["vendor"]["addressObject"]["lat"],
             "displayImagePath": the_item["displayImagePath"],
             "bannerImagePath": the_item["bannerImagePath"],
             "thumbnailImagePath": the_item["thumbnailImagePath"],
@@ -130,6 +132,20 @@ def approve_item(request, item_id):
 
         if the_item["desc"]:
             sendBody.update({"desc": the_item["desc"]})
+
+        if (
+            the_item["vendor"]["addressObject"]["long"]
+            and the_item["vendor"]["addressObject"]["long"] != None
+        ):
+            sendBody.update(
+                {"vendor_long": the_item["vendor"]["addressObject"]["long"]}
+            )
+
+        if (
+            the_item["vendor"]["addressObject"]["lat"]
+            and the_item["vendor"]["addressObject"]["lat"] != None
+        ):
+            sendBody.update({"vendor_lat": the_item["vendor"]["addressObject"]["lat"]})
 
         if the_item["vendor"]["shop_name"] == None:
             sendBody.update(
@@ -255,6 +271,20 @@ def approve_rental_item(request, item_id):
             )
         else:
             sendBody.update({"vendor": the_item["vendor"]["shop_name"]})
+
+        if (
+            the_item["vendor"]["addressObject"]["long"]
+            and the_item["vendor"]["addressObject"]["long"] != None
+        ):
+            sendBody.update(
+                {"vendor_long": the_item["vendor"]["addressObject"]["long"]}
+            )
+
+        if (
+            the_item["vendor"]["addressObject"]["lat"]
+            and the_item["vendor"]["addressObject"]["lat"] != None
+        ):
+            sendBody.update({"vendor_lat": the_item["vendor"]["addressObject"]["lat"]})
 
         print("sendbody here ", sendBody)
 
