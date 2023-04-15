@@ -22,7 +22,7 @@ urlpatterns = [
     path("delete_multiple_items/", delete_multiple_items, name="delete_multiple_items"),
     path(
         "delete_trailer/<trailer_id>/",
-        delete_multiple_items,
+        delete_trailer,
         name="delete_trailer",
     ),
     path(

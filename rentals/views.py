@@ -342,9 +342,13 @@ def mark_que_as_delivered(request, que_id):
 class Trailers(View):
     def get(self, request, *args, **kwargs):
 
-        platforms = requests.get(f"{platform_base_url}?timestamp={time.time()}")
+        curr_date = datetime.now()
 
-        trailers = requests.get(f"{settings.CLIENT_BASE_URL}trailers")
+        platforms = requests.get(f"{platform_base_url}?timestamp={curr_date}")
+
+        trailers = requests.get(
+            f"{settings.CLIENT_BASE_URL}trailers/get_list?timestamp={curr_date}"
+        )
         print(trailers.json())
 
         template = "rentals/trailers.html"
